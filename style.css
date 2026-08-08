@@ -1,0 +1,881 @@
+/* ==================================================================
+   ROWAN & AHMED — ENGAGEMENT INVITATION
+   style.css — Core Design System (Layout, Typography, Components)
+   ================================================================== */
+
+/* ---------------------------------------------------------------
+   1. CSS VARIABLES / DESIGN TOKENS
+--------------------------------------------------------------- */
+:root {
+    /* Colors */
+    --color-cream: #FDFBF7;
+    --color-beige: #E8DCC4;
+    --color-gold: #D4AF37;
+    --color-gold-light: #E9CD6D;
+    --color-gold-dark: #A8842A;
+    --color-text: #4A3F2C;
+    --color-text-soft: #7A6E56;
+    --color-white: #FFFFFF;
+
+    /* Glassmorphism */
+    --glass-bg: rgba(255, 255, 255, 0.45);
+    --glass-border: rgba(212, 175, 55, 0.35);
+    --glass-shadow: 0 8px 32px rgba(168, 132, 42, 0.15);
+    --glass-blur: 14px;
+
+    /* Typography */
+    --font-heading: 'Alexandria', sans-serif;
+    --font-body: 'Tajawal', sans-serif;
+
+    /* Spacing */
+    --section-padding: clamp(3rem, 8vw, 6rem);
+    --container-width: 1100px;
+
+    /* Radii */
+    --radius-md: 18px;
+    --radius-lg: 28px;
+    --radius-full: 999px;
+
+    /* Transitions */
+    --ease-luxury: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ---------------------------------------------------------------
+   2. RESET & BASE
+--------------------------------------------------------------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--color-cream);
+    color: var(--color-text);
+    line-height: 1.7;
+    overflow-x: hidden;
+    min-height: 100dvh; /* iOS Safari fix */
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: var(--color-gold-dark);
+}
+
+img, svg {
+    display: block;
+    max-width: 100%;
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Damask / floral premium background texture applied globally */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background-color: var(--color-cream);
+    background-image:
+        radial-gradient(circle at 15% 20%, rgba(212, 175, 55, 0.06) 0, transparent 45%),
+        radial-gradient(circle at 85% 10%, rgba(212, 175, 55, 0.07) 0, transparent 40%),
+        radial-gradient(circle at 50% 90%, rgba(212, 175, 55, 0.06) 0, transparent 50%),
+        repeating-linear-gradient(45deg, rgba(212, 175, 55, 0.025) 0 2px, transparent 2px 40px),
+        repeating-linear-gradient(-45deg, rgba(212, 175, 55, 0.025) 0 2px, transparent 2px 40px);
+}
+
+/* ---------------------------------------------------------------
+   3. PRELOADER
+--------------------------------------------------------------- */
+#preloader {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(160deg, var(--color-cream) 0%, var(--color-beige) 100%);
+}
+
+.preloader-inner {
+    text-align: center;
+}
+
+.preloader-frame {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-family: var(--font-heading);
+    font-size: clamp(2.8rem, 12vw, 4.5rem);
+    font-weight: 800;
+    color: var(--color-gold);
+    letter-spacing: 0.05em;
+}
+
+.preloader-amp {
+    font-weight: 400;
+    font-size: 0.6em;
+    color: var(--color-gold-dark);
+}
+
+.preloader-names {
+    margin-top: 0.5rem;
+    font-family: var(--font-heading);
+    font-size: clamp(1rem, 4vw, 1.3rem);
+    color: var(--color-text-soft);
+    letter-spacing: 0.08em;
+}
+
+.preloader-line {
+    width: 70px;
+    height: 2px;
+    margin: 1.2rem auto 0;
+    background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+}
+
+/* ---------------------------------------------------------------
+   4. ENVELOPE GATE SCREEN
+--------------------------------------------------------------- */
+#envelope-gate {
+    position: fixed;
+    inset: 0;
+    z-index: 9000;
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(165deg, var(--color-beige) 0%, var(--color-cream) 60%, var(--color-beige) 100%);
+    overflow: hidden;
+    touch-action: pan-y;
+}
+
+.envelope-bg-pattern {
+    position: absolute;
+    inset: 0;
+    opacity: 0.5;
+    background-image:
+        radial-gradient(circle, rgba(212,175,55,0.15) 1px, transparent 1.5px);
+    background-size: 26px 26px;
+    pointer-events: none;
+}
+
+.envelope-wrap {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.75rem;
+    padding: 1rem;
+}
+
+.envelope {
+    position: relative;
+    width: min(300px, 78vw);
+    height: min(210px, 55vw);
+    cursor: pointer;
+    perspective: 1200px;
+}
+
+.envelope-back {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(160deg, var(--color-beige), #dccBA0);
+    border-radius: var(--radius-md);
+    box-shadow: var(--glass-shadow), inset 0 0 0 1px rgba(212,175,55,0.4);
+}
+
+.envelope-letter {
+    position: absolute;
+    left: 8%;
+    right: 8%;
+    top: -6%;
+    height: 92%;
+    background: var(--color-cream);
+    border: 1px solid var(--glass-border);
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    z-index: 1;
+    transition: transform 1s var(--ease-luxury);
+}
+
+.letter-seal-mini {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: var(--color-gold);
+    font-size: 1.4rem;
+    letter-spacing: 0.05em;
+}
+
+.letter-mini-text {
+    font-size: 0.85rem;
+    color: var(--color-text-soft);
+}
+
+.envelope-flap-left,
+.envelope-flap-right,
+.envelope-flap-bottom {
+    position: absolute;
+    z-index: 2;
+    background: linear-gradient(160deg, var(--color-beige), #e2d3a8);
+}
+
+.envelope-flap-left {
+    left: 0; top: 0; bottom: 0; width: 50%;
+    clip-path: polygon(0 0, 100% 50%, 0 100%);
+    box-shadow: inset -2px 0 4px rgba(0,0,0,0.05);
+}
+
+.envelope-flap-right {
+    right: 0; top: 0; bottom: 0; width: 50%;
+    clip-path: polygon(100% 0, 0 50%, 100% 100%);
+    box-shadow: inset 2px 0 4px rgba(0,0,0,0.05);
+}
+
+.envelope-flap-bottom {
+    left: 0; right: 0; bottom: 0; height: 55%;
+    clip-path: polygon(0 100%, 50% 30%, 100% 100%);
+    box-shadow: inset 0 -2px 4px rgba(0,0,0,0.06);
+}
+
+.envelope-flap-top {
+    position: absolute;
+    left: 0; right: 0; top: 0; height: 55%;
+    background: linear-gradient(200deg, var(--color-gold-light), var(--color-beige));
+    clip-path: polygon(0 0, 100% 0, 50% 78%);
+    transform-origin: top center;
+    transition: transform 0.9s var(--ease-luxury);
+    z-index: 4;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.envelope-seal {
+    margin-top: 18%;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, var(--color-gold-light), var(--color-gold-dark));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1px;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--color-cream);
+    box-shadow: 0 3px 8px rgba(168,132,42,0.5), inset 0 0 0 2px rgba(255,255,255,0.25);
+}
+
+.seal-amp {
+    font-size: 0.7em;
+    opacity: 0.85;
+}
+
+/* Envelope opened state */
+.envelope.is-open .envelope-flap-top {
+    transform: rotateX(165deg);
+}
+
+.envelope.is-open .envelope-letter {
+    transform: translateY(-165%) scale(1.05);
+}
+
+.envelope-hint {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.95rem;
+    color: var(--color-text-soft);
+    letter-spacing: 0.02em;
+}
+
+.music-toggle {
+    position: fixed;
+    bottom: 22px;
+    left: 22px;
+    z-index: 500;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+}
+
+.music-bar {
+    width: 3px;
+    height: 12px;
+    background: var(--color-gold);
+    border-radius: 2px;
+}
+
+/* ---------------------------------------------------------------
+   5. LAYOUT CONTAINERS / SECTIONS
+--------------------------------------------------------------- */
+#main-content {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.ornaments-layer {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.ornament {
+    position: absolute;
+    color: rgba(212, 175, 55, 0.18);
+    font-size: 2.4rem;
+}
+
+.ornament-1 { top: 8%; left: 6%; }
+.ornament-2 { top: 40%; right: 5%; font-size: 3rem; }
+.ornament-3 { bottom: 15%; left: 10%; font-size: 2rem; }
+
+.section {
+    position: relative;
+    z-index: 2;
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: var(--section-padding) 1.5rem;
+    text-align: center;
+}
+
+.section-title {
+    font-size: clamp(1.6rem, 5vw, 2.4rem);
+    margin-bottom: 0.5rem;
+}
+
+.section-subtitle {
+    font-size: clamp(0.9rem, 3vw, 1.05rem);
+    color: var(--color-text-soft);
+    margin-bottom: 2.5rem;
+}
+
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    border-radius: var(--radius-lg);
+}
+
+/* ---------------------------------------------------------------
+   6. HERO SECTION
+--------------------------------------------------------------- */
+.hero-section {
+    position: relative;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1.5rem;
+    z-index: 2;
+    text-align: center;
+    background:
+        radial-gradient(ellipse at top, rgba(212,175,55,0.08), transparent 60%),
+        radial-gradient(ellipse at bottom, rgba(212,175,55,0.08), transparent 60%);
+}
+
+.hero-frame {
+    max-width: 640px;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border-radius: var(--radius-lg);
+    padding: clamp(2.2rem, 6vw, 3.5rem) clamp(1.5rem, 6vw, 3rem);
+    box-shadow: var(--glass-shadow);
+}
+
+.hero-kicker {
+    font-size: clamp(0.85rem, 3vw, 1rem);
+    color: var(--color-text-soft);
+    letter-spacing: 0.04em;
+    margin-bottom: 1rem;
+}
+
+.hero-names {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(0.6rem, 3vw, 1.2rem);
+    font-size: clamp(2.4rem, 10vw, 4.2rem);
+    font-weight: 800;
+    color: var(--color-gold-dark);
+    line-height: 1.15;
+    flex-wrap: wrap;
+}
+
+.hero-amp {
+    font-size: 0.55em;
+    font-weight: 400;
+    color: var(--color-gold);
+}
+
+.hero-subtitle {
+    margin-top: 0.6rem;
+    font-family: var(--font-heading);
+    font-size: clamp(1.1rem, 4vw, 1.5rem);
+    color: var(--color-text);
+    letter-spacing: 0.03em;
+}
+
+.hero-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    margin: 1.6rem 0;
+}
+
+.divider-line {
+    width: clamp(30px, 8vw, 60px);
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+}
+
+.divider-diamond {
+    width: 8px;
+    height: 8px;
+    background: var(--color-gold);
+    transform: rotate(45deg);
+}
+
+.hero-date {
+    font-size: clamp(1rem, 3.5vw, 1.2rem);
+    color: var(--color-gold-dark);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+}
+
+.scroll-indicator {
+    position: absolute;
+    bottom: clamp(16px, 4vh, 32px);
+    left: 50%;
+    transform: translateX(-50%);
+    width: 26px;
+    height: 42px;
+    border: 2px solid var(--color-gold);
+    border-radius: var(--radius-full);
+}
+
+.scroll-indicator span {
+    display: block;
+    width: 5px;
+    height: 5px;
+    margin: 6px auto 0;
+    border-radius: 50%;
+    background: var(--color-gold);
+}
+
+/* ---------------------------------------------------------------
+   7. COUNTDOWN SECTION
+--------------------------------------------------------------- */
+.countdown-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: clamp(0.6rem, 2.5vw, 1.4rem);
+    max-width: 620px;
+    margin: 0 auto;
+}
+
+.countdown-item {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--glass-shadow);
+    padding: clamp(0.9rem, 3vw, 1.6rem) 0.4rem;
+}
+
+.countdown-number {
+    display: block;
+    font-family: var(--font-heading);
+    font-size: clamp(1.5rem, 6vw, 2.4rem);
+    font-weight: 700;
+    color: var(--color-gold-dark);
+    font-variant-numeric: tabular-nums;
+}
+
+.countdown-label {
+    display: block;
+    margin-top: 0.3rem;
+    font-size: clamp(0.7rem, 2.5vw, 0.85rem);
+    color: var(--color-text-soft);
+}
+
+.countdown-message {
+    margin-top: 2rem;
+    font-family: var(--font-heading);
+    font-size: clamp(1.3rem, 5vw, 1.9rem);
+    font-weight: 700;
+    color: var(--color-gold-dark);
+}
+
+/* ---------------------------------------------------------------
+   8. DETAILS SECTION
+--------------------------------------------------------------- */
+.details-card {
+    max-width: 560px;
+    margin: 0 auto;
+    padding: clamp(1.5rem, 5vw, 2.4rem);
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+}
+
+.detail-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-align: right;
+}
+
+.detail-icon {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(212, 175, 55, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.detail-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+.detail-title {
+    font-size: 0.8rem;
+    color: var(--color-text-soft);
+}
+
+.detail-value {
+    font-size: clamp(1rem, 3.5vw, 1.15rem);
+    font-weight: 500;
+    color: var(--color-text);
+}
+
+.calendar-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.btn-calendar {
+    padding: 0.9rem 1.8rem;
+    border-radius: var(--radius-full);
+    background: linear-gradient(135deg, var(--color-gold-light), var(--color-gold-dark));
+    color: var(--color-cream);
+    font-weight: 500;
+    font-size: 0.95rem;
+    box-shadow: 0 6px 16px rgba(168, 132, 42, 0.3);
+    transition: transform 0.3s var(--ease-luxury), box-shadow 0.3s var(--ease-luxury);
+}
+
+.btn-calendar:hover,
+.btn-calendar:active {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(168, 132, 42, 0.4);
+}
+
+/* ---------------------------------------------------------------
+   9. MAP SECTION
+--------------------------------------------------------------- */
+.map-frame {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0.6rem;
+    overflow: hidden;
+}
+
+#map {
+    width: 100%;
+    height: clamp(260px, 45vw, 420px);
+    border-radius: calc(var(--radius-lg) - 6px);
+    filter: sepia(8%) saturate(85%);
+}
+
+.gold-heart-marker {
+    filter: drop-shadow(0 3px 6px rgba(168, 132, 42, 0.5));
+}
+
+/* ---------------------------------------------------------------
+   10. RSVP FORM
+--------------------------------------------------------------- */
+.rsvp-form {
+    max-width: 560px;
+    margin: 0 auto;
+    padding: clamp(1.6rem, 5vw, 2.6rem);
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-group label,
+.rsvp-attend-group legend {
+    font-size: 0.9rem;
+    color: var(--color-text-soft);
+    font-weight: 500;
+}
+
+.form-group input[type="text"],
+.form-group textarea {
+    width: 100%;
+    padding: 0.9rem 1.1rem;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    color: var(--color-text);
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    resize: vertical;
+    transition: border-color 0.3s var(--ease-luxury), box-shadow 0.3s var(--ease-luxury);
+}
+
+.form-group input[type="text"]:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--color-gold);
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.18);
+}
+
+.rsvp-attend-group {
+    border: none;
+    padding: 0;
+}
+
+.rsvp-radio-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    margin-top: 0.3rem;
+}
+
+.rsvp-radio {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--color-text);
+    background: rgba(255,255,255,0.5);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-full);
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+}
+
+.rsvp-radio input {
+    accent-color: var(--color-gold-dark);
+}
+
+.rsvp-send-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    align-items: center;
+    text-align: center;
+    margin-top: 0.5rem;
+}
+
+.rsvp-send-label {
+    font-size: 0.85rem;
+    color: var(--color-text-soft);
+}
+
+.rsvp-send-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.9rem;
+    width: 100%;
+}
+
+.btn-whatsapp {
+    flex: 1 1 180px;
+    padding: 0.9rem 1.2rem;
+    border-radius: var(--radius-full);
+    background: linear-gradient(135deg, #25D366, #1da851);
+    color: var(--color-white);
+    font-weight: 500;
+    font-size: 0.92rem;
+    box-shadow: 0 6px 16px rgba(37, 211, 102, 0.3);
+    transition: transform 0.3s var(--ease-luxury), box-shadow 0.3s var(--ease-luxury);
+}
+
+.btn-whatsapp:hover,
+.btn-whatsapp:active {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(37, 211, 102, 0.4);
+}
+
+.rsvp-status {
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--color-gold-dark);
+    min-height: 1.2em;
+}
+
+/* ---------------------------------------------------------------
+   11. FOOTER
+--------------------------------------------------------------- */
+.site-footer {
+    position: relative;
+    z-index: 2;
+    padding: var(--section-padding) 1.5rem 3rem;
+    text-align: center;
+}
+
+.footer-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    margin-bottom: 1.8rem;
+}
+
+.footer-thanks {
+    font-family: var(--font-heading);
+    font-size: clamp(1.1rem, 4vw, 1.4rem);
+    color: var(--color-gold-dark);
+    margin-bottom: 2.2rem;
+}
+
+.footer-signature {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.signature-line {
+    font-size: 0.85rem;
+    color: var(--color-text-soft);
+}
+
+.signature-name {
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--color-gold-dark);
+    letter-spacing: 0.02em;
+}
+
+.signature-tagline {
+    font-size: 0.78rem;
+    color: var(--color-text-soft);
+    margin-bottom: 1rem;
+}
+
+.social-icons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.4rem;
+}
+
+.social-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+    color: var(--color-gold-dark);
+    box-shadow: var(--glass-shadow);
+}
+
+/* ---------------------------------------------------------------
+   12. RESPONSIVE ADJUSTMENTS
+--------------------------------------------------------------- */
+@media (max-width: 480px) {
+    .countdown-grid {
+        gap: 0.5rem;
+    }
+    .rsvp-radio-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .rsvp-radio {
+        justify-content: center;
+    }
+    .btn-whatsapp {
+        flex: 1 1 100%;
+    }
+}
+
+@media (min-width: 768px) {
+    .section {
+        padding-inline: 3rem;
+    }
+}
+
+/* Landscape short-height mobile fix for envelope */
+@media (max-height: 480px) and (orientation: landscape) {
+    .envelope {
+        width: 220px;
+        height: 150px;
+    }
+    .envelope-wrap {
+        gap: 0.8rem;
+    }
+}

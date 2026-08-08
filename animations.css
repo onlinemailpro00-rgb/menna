@@ -1,0 +1,375 @@
+/* ==================================================================
+   ROWAN & AHMED — ENGAGEMENT INVITATION
+   animations.css — Keyframes, Transitions & Motion Effects
+   ================================================================== */
+
+/* ---------------------------------------------------------------
+   1. PRELOADER ANIMATIONS
+--------------------------------------------------------------- */
+.preloader-letter {
+    display: inline-block;
+    animation: gold-pulse 1.4s ease-in-out infinite;
+}
+
+#letter-a {
+    animation-delay: 0.25s;
+}
+
+.preloader-amp {
+    display: inline-block;
+    animation: fade-flicker 1.4s ease-in-out infinite;
+    animation-delay: 0.15s;
+}
+
+@keyframes gold-pulse {
+    0%, 100% {
+        transform: scale(1);
+        text-shadow: 0 0 8px rgba(212, 175, 55, 0.25);
+    }
+    50% {
+        transform: scale(1.12);
+        text-shadow: 0 0 22px rgba(212, 175, 55, 0.6);
+    }
+}
+
+@keyframes fade-flicker {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+.preloader-names {
+    animation: fade-in-up 1s ease-out 0.3s both;
+}
+
+.preloader-line {
+    animation: line-grow 1.2s ease-out 0.5s both;
+}
+
+@keyframes line-grow {
+    from { width: 0; opacity: 0; }
+    to { width: 70px; opacity: 1; }
+}
+
+#preloader {
+    animation: preloader-exit 0.7s ease-in-out 2s forwards;
+}
+
+@keyframes preloader-exit {
+    0% { opacity: 1; visibility: visible; }
+    99% { opacity: 0; visibility: visible; }
+    100% { opacity: 0; visibility: hidden; pointer-events: none; }
+}
+
+@keyframes fade-in-up {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------------------------------------------------------------
+   2. ENVELOPE ANIMATIONS
+--------------------------------------------------------------- */
+.envelope-wrap {
+    animation: fade-in-up 1s ease-out both;
+}
+
+.envelope {
+    animation: envelope-float 3.5s ease-in-out infinite;
+}
+
+.envelope.is-open {
+    animation: none;
+}
+
+@keyframes envelope-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+.envelope-seal {
+    animation: seal-shine 2.6s ease-in-out infinite;
+}
+
+@keyframes seal-shine {
+    0%, 100% { box-shadow: 0 3px 8px rgba(168,132,42,0.5), inset 0 0 0 2px rgba(255,255,255,0.25); }
+    50% { box-shadow: 0 3px 14px rgba(212,175,55,0.75), inset 0 0 0 2px rgba(255,255,255,0.4); }
+}
+
+.envelope-hint {
+    animation: hint-bounce 1.8s ease-in-out infinite;
+}
+
+@keyframes hint-bounce {
+    0%, 100% { transform: translateY(0); opacity: 0.85; }
+    50% { transform: translateY(-5px); opacity: 1; }
+}
+
+.swipe-icon {
+    animation: swipe-up-arrow 1.6s ease-in-out infinite;
+}
+
+@keyframes swipe-up-arrow {
+    0%, 100% { transform: translateY(0); opacity: 0.6; }
+    50% { transform: translateY(-6px); opacity: 1; }
+}
+
+/* Envelope gate exit transition */
+#envelope-gate.gate-exit {
+    animation: gate-fade-out 0.9s ease-in-out forwards;
+    pointer-events: none;
+}
+
+@keyframes gate-fade-out {
+    0% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(1.05); visibility: hidden; }
+}
+
+/* Main content reveal */
+#main-content.reveal {
+    animation: content-fade-in 1.2s ease-out both;
+}
+
+@keyframes content-fade-in {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.music-toggle {
+    animation: fade-in-up 0.8s ease-out both;
+}
+
+.music-toggle[aria-pressed="true"] .music-bar {
+    animation: music-bounce 0.9s ease-in-out infinite;
+}
+
+.music-toggle[aria-pressed="true"] .music-bar:nth-child(2) { animation-delay: 0.15s; }
+.music-toggle[aria-pressed="true"] .music-bar:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes music-bounce {
+    0%, 100% { height: 8px; }
+    50% { height: 16px; }
+}
+
+/* ---------------------------------------------------------------
+   3. AMBIENT ORNAMENTS (Floating petals)
+--------------------------------------------------------------- */
+.ornament {
+    animation: petal-drift 9s ease-in-out infinite;
+}
+
+.ornament-1 { animation-duration: 8s; }
+.ornament-2 { animation-duration: 11s; animation-delay: 1.5s; }
+.ornament-3 { animation-duration: 9.5s; animation-delay: 0.7s; }
+
+@keyframes petal-drift {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    33% { transform: translate(12px, -18px) rotate(12deg); }
+    66% { transform: translate(-10px, 10px) rotate(-10deg); }
+}
+
+/* ---------------------------------------------------------------
+   4. SCROLL-REVEAL FOR SECTIONS
+--------------------------------------------------------------- */
+.section,
+.hero-frame {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.9s var(--ease-luxury), transform 0.9s var(--ease-luxury);
+}
+
+.section.in-view,
+.hero-frame.in-view {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Hero frame should reveal immediately (it's the first thing seen) */
+.hero-frame {
+    transition-delay: 0.15s;
+}
+
+/* ---------------------------------------------------------------
+   5. HERO NAME SHIMMER
+--------------------------------------------------------------- */
+.hero-names {
+    background: linear-gradient(100deg,
+        var(--color-gold-dark) 30%,
+        var(--color-gold-light) 45%,
+        var(--color-gold) 50%,
+        var(--color-gold-light) 55%,
+        var(--color-gold-dark) 70%);
+    background-size: 250% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer-text 5s linear infinite;
+}
+
+@keyframes shimmer-text {
+    0% { background-position: 0% center; }
+    100% { background-position: -250% center; }
+}
+
+.divider-diamond {
+    animation: diamond-spin 4s linear infinite;
+}
+
+@keyframes diamond-spin {
+    0% { transform: rotate(45deg); }
+    50% { transform: rotate(225deg); }
+    100% { transform: rotate(405deg); }
+}
+
+.scroll-indicator span {
+    animation: scroll-dot 1.6s ease-in-out infinite;
+}
+
+@keyframes scroll-dot {
+    0% { transform: translateY(0); opacity: 1; }
+    70% { transform: translateY(14px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 0; }
+}
+
+/* ---------------------------------------------------------------
+   6. COUNTDOWN ANIMATIONS
+--------------------------------------------------------------- */
+.countdown-item {
+    transition: transform 0.35s var(--ease-luxury), box-shadow 0.35s var(--ease-luxury);
+}
+
+.countdown-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(168, 132, 42, 0.22);
+}
+
+.countdown-number.tick {
+    animation: number-tick 0.4s var(--ease-luxury);
+}
+
+@keyframes number-tick {
+    0% { transform: translateY(-6px); opacity: 0.4; }
+    100% { transform: translateY(0); opacity: 1; }
+}
+
+.countdown-message:not(.hidden) {
+    animation: celebrate-pop 0.7s var(--ease-luxury) both;
+}
+
+@keyframes celebrate-pop {
+    0% { transform: scale(0.85); opacity: 0; }
+    60% { transform: scale(1.06); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* ---------------------------------------------------------------
+   7. BUTTON INTERACTIONS
+--------------------------------------------------------------- */
+.btn-calendar,
+.btn-whatsapp {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-calendar::after,
+.btn-whatsapp::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.35) 50%, transparent 70%);
+    background-size: 200% 100%;
+    background-position: 150% 0;
+    transition: background-position 0.7s ease;
+}
+
+.btn-calendar:hover::after,
+.btn-whatsapp:hover::after {
+    background-position: -50% 0;
+}
+
+.btn-calendar:active,
+.btn-whatsapp:active {
+    transform: scale(0.97);
+}
+
+.social-icon,
+.detail-icon,
+.music-toggle {
+    transition: transform 0.35s var(--ease-luxury), box-shadow 0.35s var(--ease-luxury);
+}
+
+/* ---------------------------------------------------------------
+   8. FOOTER SOCIAL ICONS — CONTINUOUS ELEGANT ANIMATION
+--------------------------------------------------------------- */
+.social-icons .social-icon {
+    animation: icon-glow-float 3.2s ease-in-out infinite;
+}
+
+.social-icons .social-icon:nth-child(1) { animation-delay: 0s; }
+.social-icons .social-icon:nth-child(2) { animation-delay: 0.4s; }
+.social-icons .social-icon:nth-child(3) { animation-delay: 0.8s; }
+
+@keyframes icon-glow-float {
+    0%, 100% {
+        transform: translateY(0);
+        box-shadow: var(--glass-shadow);
+    }
+    50% {
+        transform: translateY(-6px);
+        box-shadow: 0 10px 22px rgba(212, 175, 55, 0.35);
+    }
+}
+
+.social-icon:hover {
+    transform: translateY(-6px) scale(1.12);
+    color: var(--color-gold);
+}
+
+.footer-divider .divider-diamond {
+    animation: diamond-spin 4s linear infinite;
+}
+
+/* ---------------------------------------------------------------
+   9. RSVP FORM MICRO-INTERACTIONS
+--------------------------------------------------------------- */
+.rsvp-status.success {
+    animation: status-pop 0.5s var(--ease-luxury) both;
+    color: #2e7d32;
+}
+
+.rsvp-status.error {
+    animation: status-shake 0.5s ease-in-out both;
+    color: #b3261e;
+}
+
+@keyframes status-pop {
+    0% { transform: scale(0.9); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes status-shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+}
+
+.rsvp-radio {
+    transition: background 0.3s var(--ease-luxury), border-color 0.3s var(--ease-luxury);
+}
+
+.rsvp-radio:has(input:checked) {
+    background: rgba(212, 175, 55, 0.18);
+    border-color: var(--color-gold);
+}
+
+/* ---------------------------------------------------------------
+   10. REDUCED MOTION ACCESSIBILITY
+--------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+    }
+}

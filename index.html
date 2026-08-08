@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <!-- ============================================= -->
+    <!-- META & CHARSET -->
+    <!-- ============================================= -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#D4AF37">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="description" content="دعوة خطوبة روان و أحمد - انضموا إلينا في احتفالنا بخطوبتنا">
+    <title>خطوبة روان & أحمد</title>
+
+    <!-- ============================================= -->
+    <!-- FONTS: Alexandria (Headers) & Tajawal (Body) -->
+    <!-- ============================================= -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;500;600;700;800;900&family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+    <!-- ============================================= -->
+    <!-- FAVICON (optional gold heart icon) -->
+    <!-- ============================================= -->
+    <link rel="icon" href="data:,">
+
+    <!-- ============================================= -->
+    <!-- PROJECT STYLESHEETS -->
+    <!-- ============================================= -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/animations.css">
+</head>
+<body>
+
+    <!-- ============================================= -->
+    <!-- 1) CUSTOM PRELOADER -->
+    <!-- ============================================= -->
+    <div id="preloader" aria-hidden="true">
+        <div class="preloader-inner">
+            <div class="preloader-frame">
+                <span class="preloader-letter" id="letter-r">R</span>
+                <span class="preloader-amp">&amp;</span>
+                <span class="preloader-letter" id="letter-a">A</span>
+            </div>
+            <p class="preloader-names">روان &amp; أحمد</p>
+            <div class="preloader-line"></div>
+        </div>
+    </div>
+
+    <!-- ============================================= -->
+    <!-- 2) INTERACTIVE ENVELOPE (Gate Screen) -->
+    <!-- ============================================= -->
+    <div id="envelope-gate">
+        <div class="envelope-bg-pattern" aria-hidden="true"></div>
+
+        <div class="envelope-wrap">
+            <div class="envelope" id="envelope" role="button" tabindex="0" aria-label="افتح الدعوة">
+                <div class="envelope-back"></div>
+                <div class="envelope-letter" id="envelope-letter-card">
+                    <div class="letter-seal-mini">R&amp;A</div>
+                    <p class="letter-mini-text">دعوة خطوبة</p>
+                </div>
+                <div class="envelope-flap-left"></div>
+                <div class="envelope-flap-right"></div>
+                <div class="envelope-flap-top" id="envelope-flap-top">
+                    <div class="envelope-seal" id="envelope-seal">
+                        <span>R</span><span class="seal-amp">&amp;</span><span>A</span>
+                    </div>
+                </div>
+                <div class="envelope-flap-bottom"></div>
+            </div>
+
+            <div class="envelope-hint" id="envelope-hint">
+                <svg class="swipe-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M12 19V5M12 5L6 11M12 5L18 11" stroke="#D4AF37" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>اضغط أو اسحب لأعلى لفتح الدعوة</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================= -->
+    <!-- MAIN INVITATION CONTENT -->
+    <!-- ============================================= -->
+    <main id="main-content" class="hidden" aria-hidden="true">
+
+        <!-- Decorative floating petals / ornaments layer -->
+        <div class="ornaments-layer" aria-hidden="true">
+            <span class="ornament ornament-1">❀</span>
+            <span class="ornament ornament-2">❀</span>
+            <span class="ornament ornament-3">❀</span>
+        </div>
+
+        <!-- ===================== HERO / NAMES ===================== -->
+        <header class="hero-section" id="hero">
+            <div class="hero-frame">
+                <p class="hero-kicker">بكل الحب والفرحة ندعوكم لمشاركتنا</p>
+                <h1 class="hero-names">
+                    <span class="name-bride">روان</span>
+                    <span class="hero-amp" aria-hidden="true">&amp;</span>
+                    <span class="name-groom">أحمد</span>
+                </h1>
+                <p class="hero-subtitle">حفل خطوبتنا</p>
+                <div class="hero-divider">
+                    <span class="divider-line"></span>
+                    <span class="divider-diamond"></span>
+                    <span class="divider-line"></span>
+                </div>
+                <p class="hero-date">11 أغسطس 2026</p>
+            </div>
+            <div class="scroll-indicator" aria-hidden="true">
+                <span></span>
+            </div>
+        </header>
+
+        <!-- ===================== COUNTDOWN ===================== -->
+        <section class="section countdown-section" id="countdown-section">
+            <h2 class="section-title">العد التنازلي لخطوبتنا</h2>
+            <p class="section-subtitle">لحظات ويجمعنا الفرح</p>
+
+            <div id="countdown" class="countdown-grid" data-target-date="2026-08-11T21:30:00+03:00">
+                <div class="countdown-item">
+                    <span class="countdown-number" id="cd-days">00</span>
+                    <span class="countdown-label">يوم</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="cd-hours">00</span>
+                    <span class="countdown-label">ساعة</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="cd-minutes">00</span>
+                    <span class="countdown-label">دقيقة</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="cd-seconds">00</span>
+                    <span class="countdown-label">ثانية</span>
+                </div>
+            </div>
+
+            <p id="countdown-message" class="countdown-message hidden">النهاردة خطوبتنا! 💍🎉</p>
+        </section>
+
+        <!-- ===================== EVENT DETAILS ===================== -->
+        <section class="section details-section" id="details-section">
+            <h2 class="section-title">تفاصيل الحفل</h2>
+
+            <div class="details-card glass-card">
+                <div class="detail-row">
+                    <div class="detail-icon" aria-hidden="true">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M8 2v4M16 2v4M3 9h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z" stroke="#D4AF37" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </div>
+                    <div class="detail-text">
+                        <span class="detail-title">التاريخ</span>
+                        <span class="detail-value">الثلاثاء، 11 أغسطس 2026</span>
+                    </div>
+                </div>
+
+                <div class="detail-row">
+                    <div class="detail-icon" aria-hidden="true">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#D4AF37" stroke-width="1.5"/><path d="M12 7v5l3.5 2" stroke="#D4AF37" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </div>
+                    <div class="detail-text">
+                        <span class="detail-title">الموعد</span>
+                        <span class="detail-value">الساعة 9:30 مساءً</span>
+                    </div>
+                </div>
+
+                <div class="detail-row">
+                    <div class="detail-icon" aria-hidden="true">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21Z" stroke="#D4AF37" stroke-width="1.5" stroke-linejoin="round"/><circle cx="12" cy="9.5" r="2.3" stroke="#D4AF37" stroke-width="1.5"/></svg>
+                    </div>
+                    <div class="detail-text">
+                        <span class="detail-title">المكان</span>
+                        <span class="detail-value">حور جاردن - Hour Garden</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="calendar-buttons">
+                <button class="btn-calendar" id="add-google-calendar" type="button">
+                    <span>إضافة إلى Google Calendar</span>
+                </button>
+                <button class="btn-calendar" id="add-apple-calendar" type="button">
+                    <span>إضافة إلى Apple Calendar</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- ===================== RSVP FORM ===================== -->
+        <section class="section rsvp-section" id="rsvp-section">
+            <h2 class="section-title">كلماتكم الحلوة بتفرحنا 💌</h2>
+            <p class="section-subtitle">اكتب أمنيتك الصادقة وابعتهالنا مباشرة على الواتساب</p>
+
+            <form id="rsvp-form" class="rsvp-form glass-card"
+                  data-groom-phone="201066594552"
+                  data-bride-phone="201288560527">
+
+                <div class="form-group">
+                    <label for="guest-name">الاسم بالكامل</label>
+                    <input type="text" id="guest-name" name="guest-name" placeholder="اكتب اسمك هنا..." required autocomplete="name">
+                </div>
+
+                <div class="form-group">
+                    <label for="guest-message">رسالة التهنئة (اختياري)</label>
+                    <textarea id="guest-message" name="guest-message" rows="3" placeholder="اكتب تهنئتك المعبرة هنا..."></textarea>
+                </div>
+
+                <div class="rsvp-send-group">
+                    <span class="rsvp-send-label">إرسال التهنئة عبر واتساب:</span>
+                    <div class="rsvp-send-buttons">
+                        <button type="submit" id="rsvp-send-groom" class="btn-whatsapp" data-target="groom">
+                            تهنئة العريس 🤵
+                        </button>
+                        <button type="submit" id="rsvp-send-bride" class="btn-whatsapp" data-target="bride">
+                            تهنئة العروسة 👰
+                        </button>
+                    </div>
+                </div>
+
+                <p class="rsvp-status" id="rsvp-status" aria-live="polite"></p>
+            </form>
+        </section>
+
+        <footer class="site-footer">
+            <div class="footer-divider">
+                <span class="divider-line"></span>
+                <span class="divider-diamond"></span>
+                <span class="divider-line"></span>
+            </div>
+
+            <p class="footer-thanks">بحضوركم تكتمل فرحتنا 💛</p>
+
+            <div class="footer-signature">
+                <p class="signature-line">صُنع بشغف وإتقان بواسطة</p>
+                <p class="signature-name">Menna Wael</p>
+                <p class="signature-tagline">لتصميم وتطوير المواقع الإلكترونية المبتكرة</p>
+
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/mena.wae.9?locale=ar_AR" class="social-icon social-facebook" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5 3.66 9.15 8.44 9.94v-7.03H7.9v-2.91h2.54V9.85c0-2.5 1.49-3.89 3.78-3.89 1.1 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.44 2.91h-2.34V22c4.78-.79 8.44-4.94 8.44-9.94Z"/></svg>
+                    </a>
+                    <a href="https://www.instagram.com/mennaawaell74/" class="social-icon social-instagram" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c2.72 0 3.06.01 4.12.06 1.06.05 1.79.22 2.43.47.66.26 1.22.6 1.77 1.15.55.55.9 1.11 1.15 1.77.25.64.42 1.37.47 2.43.05 1.06.06 1.4.06 4.12s-.01 3.06-.06 4.12c-.05 1.06-.22 1.79-.47 2.43a4.9 4.9 0 0 1-1.15 1.77 4.9 4.9 0 0 1-1.77 1.15c-.64.25-1.37.42-2.43.47-1.06.05-1.4.06-4.12.06s-3.06-.01-4.12-.06c-1.06-.05-1.79-.22-2.43-.47a4.9 4.9 0 0 1-1.77-1.15 4.9 4.9 0 0 1-1.15-1.77c-.25-.64-.42-1.37-.47-2.43C2.01 15.06 2 14.72 2 12s.01-3.06.06-4.12c.05-1.06.22-1.79.47-2.43.26-.66.6-1.22 1.15-1.77A4.9 4.9 0 0 1 5.45 2.53c.64-.25 1.37-.42 2.43-.47C8.94 2.01 9.28 2 12 2Zm0 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4Zm5.2-8.4a1.2 1.2 0 1 1-2.4 0 1.2 1.2 0 0 1 2.4 0Z"/></svg>
+                    </a>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <!-- ============================================= -->
+    <!-- SCRIPTS (all deferred for performance) -->
+    <!-- ============================================= -->
+    <script src="assets/js/countdown.js" defer></script>
+    <script src="assets/js/rsvp.js" defer></script>
+    <script src="assets/js/main.js" defer></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // ==========================================
+            // 1. إخفاء شاشة التحميل
+            // ==========================================
+            const preloader = document.getElementById("preloader");
+            if (preloader) {
+                setTimeout(() => { preloader.style.display = "none"; }, 2500);
+            }
+
+            // ==========================================
+            // 2. فتح الجواب التفاعلي
+            // ==========================================
+            const envelope = document.getElementById("envelope");
+            const envelopeGate = document.getElementById("envelope-gate");
+            const mainContent = document.getElementById("main-content");
+            const flapTop = document.getElementById("envelope-flap-top");
+
+            if (envelope && envelopeGate && mainContent) {
+                function openInvitation() {
+                    envelope.classList.add("open", "is-open");
+                    if (flapTop) flapTop.style.transform = "rotateX(180deg)";
+                    envelope.style.transform = "translateY(-20px)";
+
+                    setTimeout(() => {
+                        envelopeGate.style.opacity = "0";
+                        setTimeout(() => {
+                            envelopeGate.style.display = "none";
+                            mainContent.classList.remove("hidden");
+                            mainContent.setAttribute("aria-hidden", "false");
+                        }, 800);
+                    }, 600);
+                }
+                
+                envelope.addEventListener("click", openInvitation);
+                
+                let startY = 0;
+                envelopeGate.addEventListener("touchstart", (e) => { 
+                    startY = e.changedTouches[0].clientY; 
+                }, { passive: true });
+                
+                envelopeGate.addEventListener("touchend", (e) => {
+                    if (startY - e.changedTouches[0].clientY > 50) openInvitation();
+                });
+            }
+
+            // ==========================================
+            // 3. كود كلود (العداد والاحتفال) - مدمج ومحمي
+            // ==========================================
+            var TARGET_DATE = new Date(2026, 7, 11, 21, 30, 0); // 11 أغسطس 2026 الساعة 9:30 مساءً
+            var CONFETTI_COLORS = ["#D4AF37", "#E8DCC4", "#FDFBF7", "#C9A227", "#F3E9D2"];
+            var CONFETTI_COUNT = 60;
+            var CONFETTI_LOOP_MS = 8500;
+            
+            var confettiContainer = null;
+            var confettiIntervalId = null;
+            var countdownIntervalId = null;
+            var hasArrived = false;
+
+            var countdownEl = document.getElementById("countdown");
+            var messageEl = document.getElementById("countdown-message");
+
+            if (countdownEl) {
+                var daysEl = document.getElementById("cd-days");
+                var hoursEl = document.getElementById("cd-hours");
+                var minutesEl = document.getElementById("cd-minutes");
+                var secondsEl = document.getElementById("cd-seconds");
+
+                function tick() {
+                    var now = new Date();
+                    var distance = TARGET_DATE.getTime() - now.getTime();
+
+                    if (distance <= 0) {
+                        enterEngagementMode();
+                        return;
+                    }
+
+                    var totalSeconds = Math.floor(distance / 1000);
+                    var days = Math.floor(totalSeconds / 86400);
+                    var hours = Math.floor((totalSeconds % 86400) / 3600);
+                    var minutes = Math.floor((totalSeconds % 3600) / 60);
+                    var seconds = totalSeconds % 60;
+
+                    setValue(daysEl, days);
+                    setValue(hoursEl, hours);
+                    setValue(minutesEl, minutes);
+                    setValue(secondsEl, seconds);
+                }
+
+                function setValue(el, value) {
+                    if (!el) return;
+                    var padded = String(value).padStart(2, "0");
+                    if (el.textContent !== padded) {
+                        el.textContent = padded;
+                    }
+                }
+
+                tick();
+                countdownIntervalId = setInterval(tick, 1000);
+            }
+
+            function enterEngagementMode() {
+                if (hasArrived) return;
+                hasArrived = true;
+
+                if (countdownIntervalId) {
+                    clearInterval(countdownIntervalId);
+                    countdownIntervalId = null;
+                }
+
+                // إخفاء العداد وإظهار الرسالة بقوة
+                if (countdownEl) countdownEl.style.display = "none";
+                if (messageEl) {
+                    messageEl.textContent = "النهاردة خطوبتنا! 💍🎉";
+                    messageEl.classList.remove("hidden");
+                    messageEl.style.display = "block";
+                }
+
+                startConfettiLoop();
+            }
+
+            function ensureConfettiContainer() {
+                if (confettiContainer) return confettiContainer;
+
+                confettiContainer = document.createElement("div");
+                confettiContainer.id = "confetti-container";
+                confettiContainer.style.position = "fixed";
+                confettiContainer.style.inset = "0";
+                confettiContainer.style.width = "100vw";
+                confettiContainer.style.height = "100vh";
+                confettiContainer.style.pointerEvents = "none";
+                confettiContainer.style.overflow = "hidden";
+                confettiContainer.style.zIndex = "99999";
+
+                document.body.appendChild(confettiContainer);
+                injectConfettiStyles();
+
+                return confettiContainer;
+            }
+
+            function injectConfettiStyles() {
+                if (document.getElementById("confetti-styles")) return;
+                var style = document.createElement("style");
+                style.id = "confetti-styles";
+                style.textContent =
+                    "@keyframes confetti-fall {" +
+                    "0% { transform: translateY(-10vh) translateX(0) rotate(0deg); opacity: 1; }" +
+                    "100% { transform: translateY(110vh) translateX(var(--drift, 0px)) rotate(var(--spin, 360deg)); opacity: 0.9; }" +
+                    "}" +
+                    ".confetti-piece {" +
+                    "position: absolute; top: -5vh; will-change: transform, opacity;" +
+                    "animation-name: confetti-fall; animation-timing-function: ease-in;" +
+                    "animation-fill-mode: forwards;" +
+                    "}";
+                document.head.appendChild(style);
+            }
+
+            function createConfettiBurst() {
+                var container = ensureConfettiContainer();
+                for (var i = 0; i < CONFETTI_COUNT; i++) {
+                    var piece = document.createElement("div");
+                    piece.className = "confetti-piece";
+                    var size = 6 + Math.random() * 8;
+                    var isCircle = Math.random() > 0.5;
+                    var color = CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)];
+                    var startLeft = Math.random() * 100;
+                    var drift = (Math.random() * 160 - 80) + "px";
+                    var spin = (360 * (2 + Math.random() * 3)) + "deg";
+                    var duration = 4 + Math.random() * 3;
+                    var delay = Math.random() * 1.2;
+
+                    piece.style.left = startLeft + "vw";
+                    piece.style.width = size + "px";
+                    piece.style.height = (isCircle ? size : size * 0.4) + "px";
+                    piece.style.backgroundColor = color;
+                    piece.style.borderRadius = isCircle ? "50%" : "2px";
+                    piece.style.opacity = "0";
+                    piece.style.setProperty("--drift", drift);
+                    piece.style.setProperty("--spin", spin);
+                    piece.style.animationDuration = duration + "s";
+                    piece.style.animationDelay = delay + "s";
+                    piece.style.boxShadow = "0 0 4px rgba(212, 175, 55, 0.35)";
+
+                    container.appendChild(piece);
+
+                    (function (el, totalLife) {
+                        setTimeout(function () {
+                            if (el && el.parentNode) {
+                                el.parentNode.removeChild(el);
+                            }
+                        }, totalLife * 1000 + 200);
+                    })(piece, duration + delay);
+                }
+            }
+
+            function startConfettiLoop() {
+                createConfettiBurst();
+                confettiIntervalId = setInterval(createConfettiBurst, CONFETTI_LOOP_MS);
+            }
+        });
+    </script>
+</body>
+</html>
