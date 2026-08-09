@@ -189,39 +189,36 @@
             </div>
         </section>
 
-        <!-- ===================== RSVP FORM ===================== -->
-        <section class="section rsvp-section" id="rsvp-section">
-            <h2 class="section-title">كلماتكم الحلوة بتفرحنا 💌</h2>
-            <p class="section-subtitle">اكتب أمنيتك الصادقة وابعتهالنا مباشرة على الواتساب</p>
+        <!-- ===================== GUESTBOOK / WISHES WALL ===================== -->
+        <section class="section guestbook-section" id="guestbook-section">
+            <h2 class="section-title">حائط التهاني</h2>
+            <p class="section-subtitle">شاركونا فرحتنا بكلمة من قلبكم 💛</p>
 
-            <form id="rsvp-form" class="rsvp-form glass-card"
-                  data-groom-phone="201066594552"
-                  data-bride-phone="201288560527">
-
+            <form id="guestbook-form" class="guestbook-form glass-card">
                 <div class="form-group">
-                    <label for="guest-name">الاسم بالكامل</label>
-                    <input type="text" id="guest-name" name="guest-name" placeholder="اكتب اسمك هنا..." required autocomplete="name">
+                    <label for="wish-name">الاسم</label>
+                    <input type="text" id="wish-name" name="wish-name" placeholder="اكتبي اسمك هنا..." required autocomplete="name">
                 </div>
 
                 <div class="form-group">
-                    <label for="guest-message">رسالة التهنئة (اختياري)</label>
-                    <textarea id="guest-message" name="guest-message" rows="3" placeholder="اكتب تهنئتك المعبرة هنا..."></textarea>
+                    <label for="wish-message">رسالتك</label>
+                    <textarea id="wish-message" name="wish-message" rows="3" placeholder="اكتبي تهنئتك هنا..." required></textarea>
                 </div>
 
-                <div class="rsvp-send-group">
-                    <span class="rsvp-send-label">إرسال التهنئة عبر واتساب:</span>
-                    <div class="rsvp-send-buttons">
-                        <button type="submit" id="rsvp-send-groom" class="btn-whatsapp" data-target="groom">
-                            تهنئة العريس 🤵
-                        </button>
-                        <button type="submit" id="rsvp-send-bride" class="btn-whatsapp" data-target="bride">
-                            تهنئة العروسة 👰
-                        </button>
+                <button type="submit" class="btn-guestbook" id="wish-submit">
+                    <span class="btn-guestbook-label">أرسلي تهنئتك</span>
+                </button>
+
+                <p class="guestbook-status" id="guestbook-status" aria-live="polite"></p>
+            </form>
+
+            <div class="wishes-wall-frame glass-card">
+                <div class="wishes-wall" id="wishes-wall">
+                    <div class="wishes-wall-inner" id="wishes-wall-inner">
+                        <p class="wishes-empty" id="wishes-empty">كوني أول من يبارك لينا 💛</p>
                     </div>
                 </div>
-
-                <p class="rsvp-status" id="rsvp-status" aria-live="polite"></p>
-            </form>
+            </div>
         </section>
 
         <footer class="site-footer">
@@ -253,219 +250,278 @@
     <!-- ============================================= -->
     <!-- SCRIPTS (all deferred for performance) -->
     <!-- ============================================= -->
-    <script src="assets/js/countdown.js" defer></script>
-    <script src="assets/js/rsvp.js" defer></script>
-    <script src="assets/js/main.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-app-compat.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-database-compat.js" defer></script>
+   <!-- ============================================= -->
+    <!-- FIREBASE SDKs (compat v9.23.0) -->
+    <!-- ============================================= -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js" defer></script>
+
+    <!-- ============================================= -->
+    <!-- GUESTBOOK LOGIC (external, deferred, self-contained) -->
+    <!-- ============================================= -->
+    <script src="assets/js/guestbook.js" defer></script>
+
+    <!-- ============================================= -->
+    <!-- CORE PAGE LOGIC — Preloader, Envelope, Scroll Reveal, Countdown, Confetti -->
+    <!-- Deliberately inline & fully independent of Firebase/guestbook.js -->
+    <!-- ============================================= -->
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // ==========================================
-            // 1. إخفاء شاشة التحميل
-            // ==========================================
-            const preloader = document.getElementById("preloader");
-            if (preloader) {
-                setTimeout(() => { preloader.style.display = "none"; }, 2500);
+    document.addEventListener("DOMContentLoaded", function () {
+        "use strict";
+
+        /* ============================================================
+           1. PRELOADER — hides after 2.5s
+        ============================================================ */
+        var preloader = document.getElementById("preloader");
+        if (preloader) {
+            setTimeout(function () {
+                preloader.style.display = "none";
+            }, 2500);
+        }
+
+        /* ============================================================
+           2. INTERACTIVE ENVELOPE — click / swipe-up to open
+        ============================================================ */
+        var envelopeGate = document.getElementById("envelope-gate");
+        var envelope = document.getElementById("envelope");
+        var flapTop = document.getElementById("envelope-flap-top");
+        var mainContent = document.getElementById("main-content");
+
+        var envelopeOpened = false;
+        var touchStartY = 0;
+
+        function openEnvelope() {
+            if (envelopeOpened) return;
+            envelopeOpened = true;
+
+            if (envelope) {
+                envelope.classList.add("open", "is-open");
+            }
+            if (flapTop) {
+                flapTop.style.transform = "rotateX(180deg)";
             }
 
-            // ==========================================
-            // 2. فتح الجواب التفاعلي
-            // ==========================================
-            const envelope = document.getElementById("envelope");
-            const envelopeGate = document.getElementById("envelope-gate");
-            const mainContent = document.getElementById("main-content");
-            const flapTop = document.getElementById("envelope-flap-top");
-
-            if (envelope && envelopeGate && mainContent) {
-                function openInvitation() {
-                    envelope.classList.add("open", "is-open");
-                    if (flapTop) flapTop.style.transform = "rotateX(180deg)";
-                    envelope.style.transform = "translateY(-20px)";
-
-                    setTimeout(() => {
-                        envelopeGate.style.opacity = "0";
-                        setTimeout(() => {
-                            envelopeGate.style.display = "none";
-                            mainContent.classList.remove("hidden");
-                            mainContent.setAttribute("aria-hidden", "false");
-                        }, 800);
-                    }, 600);
+            setTimeout(function () {
+                if (envelopeGate) {
+                    envelopeGate.style.transition = "opacity 0.8s ease";
+                    envelopeGate.style.opacity = "0";
+                    setTimeout(function () {
+                        envelopeGate.style.display = "none";
+                    }, 850);
                 }
-                
-                envelope.addEventListener("click", openInvitation);
-                
-                let startY = 0;
-                envelopeGate.addEventListener("touchstart", (e) => { 
-                    startY = e.changedTouches[0].clientY; 
-                }, { passive: true });
-                
-                envelopeGate.addEventListener("touchend", (e) => {
-                    if (startY - e.changedTouches[0].clientY > 50) openInvitation();
+                if (mainContent) {
+                    mainContent.classList.remove("hidden");
+                    mainContent.setAttribute("aria-hidden", "false");
+                }
+                document.body.style.overflow = "auto";
+
+                // Content is now visible — force a fresh intersection
+                // check right away, since elements that were inside
+                // display:none ancestors report zero intersection and
+                // the observer may have missed them while hidden.
+                refreshScrollReveal();
+            }, 700);
+        }
+
+        if (envelope) {
+            envelope.addEventListener("click", openEnvelope);
+            envelope.addEventListener("keydown", function (e) {
+                if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    openEnvelope();
+                }
+            });
+        }
+
+        if (envelopeGate) {
+            document.body.style.overflow = "hidden";
+
+            envelopeGate.addEventListener(
+                "touchstart",
+                function (e) {
+                    touchStartY = e.touches[0].clientY;
+                },
+                { passive: true }
+            );
+
+            envelopeGate.addEventListener(
+                "touchend",
+                function (e) {
+                    var touchEndY = e.changedTouches[0].clientY;
+                    if (touchStartY - touchEndY > 40) {
+                        openEnvelope();
+                    }
+                },
+                { passive: true }
+            );
+        }
+
+        /* ============================================================
+           3. SCROLL REVEAL — adds .in-view to .section / .hero-frame
+              elements as they enter the viewport
+        ============================================================ */
+        var revealTargets = document.querySelectorAll(".section, .hero-frame");
+        var revealObserver = null;
+
+        function refreshScrollReveal() {
+            if (!revealTargets.length) return;
+
+            if (!revealObserver) {
+                revealTargets.forEach(function (el) {
+                    el.classList.add("in-view");
                 });
+                return;
             }
 
-            // ==========================================
-            // 3. كود كلود (العداد والاحتفال) - مدمج ومحمي
-            // ==========================================
-            var TARGET_DATE = new Date(2026, 7, 11, 21, 30, 0); // 11 أغسطس 2026 الساعة 9:30 مساءً
-            var CONFETTI_COLORS = ["#D4AF37", "#E8DCC4", "#FDFBF7", "#C9A227", "#F3E9D2"];
-            var CONFETTI_COUNT = 60;
-            var CONFETTI_LOOP_MS = 8500;
-            
-            var confettiContainer = null;
-            var confettiIntervalId = null;
-            var countdownIntervalId = null;
-            var hasArrived = false;
+            revealTargets.forEach(function (el) {
+                revealObserver.unobserve(el);
+                revealObserver.observe(el);
+            });
+        }
 
-            var countdownEl = document.getElementById("countdown");
-            var messageEl = document.getElementById("countdown-message");
+        if ("IntersectionObserver" in window && revealTargets.length) {
+            revealObserver = new IntersectionObserver(
+                function (entries) {
+                    entries.forEach(function (entry) {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add("in-view");
+                            revealObserver.unobserve(entry.target);
+                        }
+                    });
+                },
+                { threshold: 0.15, rootMargin: "0px 0px -60px 0px" }
+            );
 
-            if (countdownEl) {
-                var daysEl = document.getElementById("cd-days");
-                var hoursEl = document.getElementById("cd-hours");
-                var minutesEl = document.getElementById("cd-minutes");
-                var secondsEl = document.getElementById("cd-seconds");
+            revealTargets.forEach(function (el) {
+                revealObserver.observe(el);
+            });
+        } else {
+            // No IntersectionObserver support (very old browser) —
+            // just show everything immediately.
+            revealTargets.forEach(function (el) {
+                el.classList.add("in-view");
+            });
+        }
 
-                function tick() {
-                    var now = new Date();
-                    var distance = TARGET_DATE.getTime() - now.getTime();
+        /* ============================================================
+           4. COUNTDOWN — Target: August 11, 2026, 9:30 PM
+              (numeric Date constructor = no iOS/Safari parsing bugs)
+        ============================================================ */
+        var countdownEl = document.getElementById("countdown");
+        var messageEl = document.getElementById("countdown-message");
+        var daysEl = document.getElementById("cd-days");
+        var hoursEl = document.getElementById("cd-hours");
+        var minutesEl = document.getElementById("cd-minutes");
+        var secondsEl = document.getElementById("cd-seconds");
 
-                    if (distance <= 0) {
-                        enterEngagementMode();
-                        return;
+        var TARGET_DATE = new Date(2026, 7, 11, 21, 30, 0); // month is 0-based → 7 = August
+        var countdownTimer = null;
+        var hasArrived = false;
+
+        function setValue(el, value) {
+            if (!el) return;
+            var padded = String(value).padStart(2, "0");
+            if (el.textContent !== padded) el.textContent = padded;
+        }
+
+        function tickCountdown() {
+            var distance = TARGET_DATE.getTime() - new Date().getTime();
+
+            if (distance <= 0) {
+                if (!hasArrived) {
+                    hasArrived = true;
+                    if (countdownTimer) clearInterval(countdownTimer);
+                    if (countdownEl) countdownEl.classList.add("hidden");
+                    if (messageEl) {
+                        messageEl.textContent = "النهاردة خطوبتنا! 💍🎉";
+                        messageEl.classList.remove("hidden");
                     }
-
-                    var totalSeconds = Math.floor(distance / 1000);
-                    var days = Math.floor(totalSeconds / 86400);
-                    var hours = Math.floor((totalSeconds % 86400) / 3600);
-                    var minutes = Math.floor((totalSeconds % 3600) / 60);
-                    var seconds = totalSeconds % 60;
-
-                    setValue(daysEl, days);
-                    setValue(hoursEl, hours);
-                    setValue(minutesEl, minutes);
-                    setValue(secondsEl, seconds);
+                    startConfettiLoop();
                 }
-
-                function setValue(el, value) {
-                    if (!el) return;
-                    var padded = String(value).padStart(2, "0");
-                    if (el.textContent !== padded) {
-                        el.textContent = padded;
-                    }
-                }
-
-                tick();
-                countdownIntervalId = setInterval(tick, 1000);
+                return;
             }
 
-            function enterEngagementMode() {
-                if (hasArrived) return;
-                hasArrived = true;
+            var totalSeconds = Math.floor(distance / 1000);
+            setValue(daysEl, Math.floor(totalSeconds / 86400));
+            setValue(hoursEl, Math.floor((totalSeconds % 86400) / 3600));
+            setValue(minutesEl, Math.floor((totalSeconds % 3600) / 60));
+            setValue(secondsEl, totalSeconds % 60);
+        }
 
-                if (countdownIntervalId) {
-                    clearInterval(countdownIntervalId);
-                    countdownIntervalId = null;
-                }
+        if (countdownEl) {
+            tickCountdown();
+            countdownTimer = setInterval(tickCountdown, 1000);
+        }
 
-                // إخفاء العداد وإظهار الرسالة بقوة
-                if (countdownEl) countdownEl.style.display = "none";
-                if (messageEl) {
-                    messageEl.textContent = "النهاردة خطوبتنا! 💍🎉";
-                    messageEl.classList.remove("hidden");
-                    messageEl.style.display = "block";
-                }
+        /* ============================================================
+           5. CONFETTI — pure vanilla JS, no external libraries
+              Gold / Beige / Off-White theme, loops every 8.5s
+        ============================================================ */
+        var CONFETTI_COLORS = ["#D4AF37", "#E8DCC4", "#FDFBF7", "#C9A227", "#F3E9D2"];
+        var confettiContainer = null;
 
-                startConfettiLoop();
+        function ensureConfettiContainer() {
+            if (confettiContainer) return confettiContainer;
+
+            confettiContainer = document.createElement("div");
+            confettiContainer.id = "confetti-container";
+            confettiContainer.style.cssText =
+                "position:fixed;inset:0;width:100%;height:100%;pointer-events:none;overflow:hidden;z-index:99999;";
+            document.body.appendChild(confettiContainer);
+
+            var style = document.createElement("style");
+            style.textContent =
+                "@keyframes confetti-fall{" +
+                "0%{transform:translateY(-10vh) translateX(0) rotate(0deg);opacity:1;}" +
+                "100%{transform:translateY(110vh) translateX(var(--drift,0px)) rotate(var(--spin,360deg));opacity:0.9;}" +
+                "}" +
+                ".confetti-piece{position:absolute;top:-5vh;animation-name:confetti-fall;" +
+                "animation-timing-function:ease-in;animation-fill-mode:forwards;}";
+            document.head.appendChild(style);
+
+            return confettiContainer;
+        }
+
+        function createConfettiBurst() {
+            var container = ensureConfettiContainer();
+
+            for (var i = 0; i < 60; i++) {
+                var piece = document.createElement("div");
+                piece.className = "confetti-piece";
+
+                var size = 6 + Math.random() * 8;
+                var isCircle = Math.random() > 0.5;
+                var duration = 4 + Math.random() * 3;
+                var delay = Math.random() * 1.2;
+
+                piece.style.left = Math.random() * 100 + "vw";
+                piece.style.width = size + "px";
+                piece.style.height = (isCircle ? size : size * 0.4) + "px";
+                piece.style.backgroundColor =
+                    CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)];
+                piece.style.borderRadius = isCircle ? "50%" : "2px";
+                piece.style.setProperty("--drift", Math.random() * 160 - 80 + "px");
+                piece.style.setProperty("--spin", 360 * (2 + Math.random() * 3) + "deg");
+                piece.style.animationDuration = duration + "s";
+                piece.style.animationDelay = delay + "s";
+
+                container.appendChild(piece);
+
+                (function (el, life) {
+                    setTimeout(function () {
+                        if (el.parentNode) el.parentNode.removeChild(el);
+                    }, life * 1000 + 200);
+                })(piece, duration + delay);
             }
+        }
 
-            function ensureConfettiContainer() {
-                if (confettiContainer) return confettiContainer;
-
-                confettiContainer = document.createElement("div");
-                confettiContainer.id = "confetti-container";
-                confettiContainer.style.position = "fixed";
-                confettiContainer.style.inset = "0";
-                confettiContainer.style.width = "100vw";
-                confettiContainer.style.height = "100vh";
-                confettiContainer.style.pointerEvents = "none";
-                confettiContainer.style.overflow = "hidden";
-                confettiContainer.style.zIndex = "99999";
-
-                document.body.appendChild(confettiContainer);
-                injectConfettiStyles();
-
-                return confettiContainer;
-            }
-
-            function injectConfettiStyles() {
-                if (document.getElementById("confetti-styles")) return;
-                var style = document.createElement("style");
-                style.id = "confetti-styles";
-                style.textContent =
-                    "@keyframes confetti-fall {" +
-                    "0% { transform: translateY(-10vh) translateX(0) rotate(0deg); opacity: 1; }" +
-                    "100% { transform: translateY(110vh) translateX(var(--drift, 0px)) rotate(var(--spin, 360deg)); opacity: 0.9; }" +
-                    "}" +
-                    ".confetti-piece {" +
-                    "position: absolute; top: -5vh; will-change: transform, opacity;" +
-                    "animation-name: confetti-fall; animation-timing-function: ease-in;" +
-                    "animation-fill-mode: forwards;" +
-                    "}";
-                document.head.appendChild(style);
-            }
-
-            function createConfettiBurst() {
-                var container = ensureConfettiContainer();
-                for (var i = 0; i < CONFETTI_COUNT; i++) {
-                    var piece = document.createElement("div");
-                    piece.className = "confetti-piece";
-                    var size = 6 + Math.random() * 8;
-                    var isCircle = Math.random() > 0.5;
-                    var color = CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)];
-                    var startLeft = Math.random() * 100;
-                    var drift = (Math.random() * 160 - 80) + "px";
-                    var spin = (360 * (2 + Math.random() * 3)) + "deg";
-                    var duration = 4 + Math.random() * 3;
-                    var delay = Math.random() * 1.2;
-
-                    piece.style.left = startLeft + "vw";
-                    piece.style.width = size + "px";
-                    piece.style.height = (isCircle ? size : size * 0.4) + "px";
-                    piece.style.backgroundColor = color;
-                    piece.style.borderRadius = isCircle ? "50%" : "2px";
-                    piece.style.opacity = "0";
-                    piece.style.setProperty("--drift", drift);
-                    piece.style.setProperty("--spin", spin);
-                    piece.style.animationDuration = duration + "s";
-                    piece.style.animationDelay = delay + "s";
-                    piece.style.boxShadow = "0 0 4px rgba(212, 175, 55, 0.35)";
-
-                    container.appendChild(piece);
-
-                    (function (el, totalLife) {
-                        setTimeout(function () {
-                            if (el && el.parentNode) {
-                                el.parentNode.removeChild(el);
-                            }
-                        }, totalLife * 1000 + 200);
-                    })(piece, duration + delay);
-                }
-            }
-
-            function startConfettiLoop() {
-                createConfettiBurst();
-                confettiIntervalId = setInterval(createConfettiBurst, CONFETTI_LOOP_MS);
-            }
-        });
-    </script>
-    <script src="assets/js/countdown.js" defer></script>
-<script src="assets/js/rsvp.js" defer></script>
-<script src="assets/js/main.js" defer></script>
-<script src="assets/js/rsvp.js" defer></script>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // (باقي الكود الطويل اللي حطيناه المرة اللي فاتت بيفضل زي ما هو هنا)
-        });
+        function startConfettiLoop() {
+            createConfettiBurst();
+            setInterval(createConfettiBurst, 8500);
+        }
+    });
     </script>
 </body>
 </html>
