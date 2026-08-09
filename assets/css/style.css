@@ -1,45 +1,49 @@
 /* ==================================================================
    ROWAN & AHMED — ENGAGEMENT INVITATION
    style.css — Core Design System (Layout, Typography, Components)
+   Palette refresh: soft, feminine, romantic — creamy white, blush
+   pink, dusty rose & champagne gold. No HTML/JS changes required.
    ================================================================== */
-
+ 
 /* ---------------------------------------------------------------
    1. CSS VARIABLES / DESIGN TOKENS
 --------------------------------------------------------------- */
 :root {
-    /* Colors */
-    --color-cream: #FDFBF7;
-    --color-beige: #E8DCC4;
-    --color-gold: #D4AF37;
-    --color-gold-light: #E9CD6D;
-    --color-gold-dark: #A8842A;
-    --color-text: #4A3F2C;
-    --color-text-soft: #7A6E56;
+    /* Colors — soft romantic palette */
+    --color-cream: #FDF8F5;        /* creamy off-white */
+    --color-beige: #F3DEE1;        /* soft blush pink (was beige) */
+    --color-gold: #C9A66B;         /* champagne gold */
+    --color-gold-light: #E3C9A0;   /* light champagne */
+    --color-gold-dark: #A9825A;    /* deep champagne */
+    --color-rose: #D9A9B0;         /* dusty rose accent */
+    --color-rose-deep: #C48793;    /* deeper dusty rose */
+    --color-text: #5B4A4D;         /* warm rose-brown */
+    --color-text-soft: #8B7377;    /* soft mauve-taupe */
     --color-white: #FFFFFF;
-
-    /* Glassmorphism */
-    --glass-bg: rgba(255, 255, 255, 0.45);
-    --glass-border: rgba(212, 175, 55, 0.35);
-    --glass-shadow: 0 8px 32px rgba(168, 132, 42, 0.15);
+ 
+    /* Glassmorphism — softer, organic */
+    --glass-bg: rgba(255, 255, 255, 0.5);
+    --glass-border: rgba(217, 169, 176, 0.32);
+    --glass-shadow: 0 10px 34px rgba(180, 140, 150, 0.12);
     --glass-blur: 14px;
-
+ 
     /* Typography */
     --font-heading: 'Alexandria', sans-serif;
     --font-body: 'Tajawal', sans-serif;
-
+ 
     /* Spacing */
     --section-padding: clamp(3rem, 8vw, 6rem);
     --container-width: 1100px;
-
+ 
     /* Radii */
     --radius-md: 18px;
     --radius-lg: 28px;
     --radius-full: 999px;
-
+ 
     /* Transitions */
     --ease-luxury: cubic-bezier(0.4, 0, 0.2, 1);
 }
-
+ 
 /* ---------------------------------------------------------------
    2. RESET & BASE
 --------------------------------------------------------------- */
@@ -49,11 +53,11 @@
     box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
 }
-
+ 
 html {
     scroll-behavior: smooth;
 }
-
+ 
 body {
     font-family: var(--font-body);
     background-color: var(--color-cream);
@@ -64,35 +68,36 @@ body {
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
 }
-
+ 
 h1, h2, h3, h4 {
     font-family: var(--font-heading);
     font-weight: 700;
     color: var(--color-gold-dark);
 }
-
+ 
 img, svg {
     display: block;
     max-width: 100%;
 }
-
+ 
 button {
     font-family: inherit;
     cursor: pointer;
     border: none;
     background: none;
 }
-
+ 
 a {
     text-decoration: none;
     color: inherit;
 }
-
+ 
 .hidden {
     display: none !important;
 }
-
-/* Damask / floral premium background texture applied globally */
+ 
+/* Soft organic background texture — gentle blush/champagne wash,
+   no harsh lines, no artificial contrast */
 body::before {
     content: "";
     position: fixed;
@@ -100,13 +105,29 @@ body::before {
     z-index: -1;
     background-color: var(--color-cream);
     background-image:
-        radial-gradient(circle at 15% 20%, rgba(212, 175, 55, 0.06) 0, transparent 45%),
-        radial-gradient(circle at 85% 10%, rgba(212, 175, 55, 0.07) 0, transparent 40%),
-        radial-gradient(circle at 50% 90%, rgba(212, 175, 55, 0.06) 0, transparent 50%),
-        repeating-linear-gradient(45deg, rgba(212, 175, 55, 0.025) 0 2px, transparent 2px 40px),
-        repeating-linear-gradient(-45deg, rgba(212, 175, 55, 0.025) 0 2px, transparent 2px 40px);
+        radial-gradient(circle at 12% 18%, rgba(217, 169, 176, 0.10) 0, transparent 48%),
+        radial-gradient(circle at 88% 12%, rgba(201, 166, 107, 0.08) 0, transparent 42%),
+        radial-gradient(circle at 50% 92%, rgba(217, 169, 176, 0.09) 0, transparent 52%),
+        radial-gradient(circle at 30% 60%, rgba(201, 166, 107, 0.05) 0, transparent 40%);
 }
-
+ 
+/* Gentle twinkling sparkles layer — pure CSS, opacity-only for
+   buttery-smooth mobile performance (no box-shadow animation) */
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+        radial-gradient(circle, rgba(255, 255, 255, 0.9) 1px, transparent 1.4px),
+        radial-gradient(circle, rgba(201, 166, 107, 0.55) 1px, transparent 1.4px),
+        radial-gradient(circle, rgba(217, 169, 176, 0.5) 1px, transparent 1.4px);
+    background-size: 180px 180px, 240px 240px, 210px 210px;
+    background-position: 20px 40px, 120px 160px, 70px 220px;
+    animation: sparkle-twinkle 7s ease-in-out infinite;
+}
+ 
 /* ---------------------------------------------------------------
    3. PRELOADER
 --------------------------------------------------------------- */
@@ -119,11 +140,11 @@ body::before {
     justify-content: center;
     background: linear-gradient(160deg, var(--color-cream) 0%, var(--color-beige) 100%);
 }
-
+ 
 .preloader-inner {
     text-align: center;
 }
-
+ 
 .preloader-frame {
     display: flex;
     align-items: center;
@@ -135,13 +156,13 @@ body::before {
     color: var(--color-gold);
     letter-spacing: 0.05em;
 }
-
+ 
 .preloader-amp {
     font-weight: 400;
     font-size: 0.6em;
     color: var(--color-gold-dark);
 }
-
+ 
 .preloader-names {
     margin-top: 0.5rem;
     font-family: var(--font-heading);
@@ -149,14 +170,14 @@ body::before {
     color: var(--color-text-soft);
     letter-spacing: 0.08em;
 }
-
+ 
 .preloader-line {
     width: 70px;
     height: 2px;
     margin: 1.2rem auto 0;
     background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
 }
-
+ 
 /* ---------------------------------------------------------------
    4. ENVELOPE GATE SCREEN
 --------------------------------------------------------------- */
@@ -172,17 +193,17 @@ body::before {
     overflow: hidden;
     touch-action: pan-y;
 }
-
+ 
 .envelope-bg-pattern {
     position: absolute;
     inset: 0;
-    opacity: 0.5;
+    opacity: 0.45;
     background-image:
-        radial-gradient(circle, rgba(212,175,55,0.15) 1px, transparent 1.5px);
+        radial-gradient(circle, rgba(217, 169, 176, 0.18) 1px, transparent 1.5px);
     background-size: 26px 26px;
     pointer-events: none;
 }
-
+ 
 .envelope-wrap {
     position: relative;
     display: flex;
@@ -191,7 +212,7 @@ body::before {
     gap: 1.75rem;
     padding: 1rem;
 }
-
+ 
 .envelope {
     position: relative;
     width: min(300px, 78vw);
@@ -199,15 +220,15 @@ body::before {
     cursor: pointer;
     perspective: 1200px;
 }
-
+ 
 .envelope-back {
     position: absolute;
     inset: 0;
-    background: linear-gradient(160deg, var(--color-beige), #dccBA0);
+    background: linear-gradient(160deg, var(--color-beige), #ecd0d5);
     border-radius: var(--radius-md);
-    box-shadow: var(--glass-shadow), inset 0 0 0 1px rgba(212,175,55,0.4);
+    box-shadow: var(--glass-shadow), inset 0 0 0 1px rgba(217, 169, 176, 0.35);
 }
-
+ 
 .envelope-letter {
     position: absolute;
     left: 8%;
@@ -217,7 +238,7 @@ body::before {
     background: var(--color-cream);
     border: 1px solid var(--glass-border);
     border-radius: 10px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+    box-shadow: 0 10px 25px rgba(150, 110, 120, 0.10);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -226,7 +247,7 @@ body::before {
     z-index: 1;
     transition: transform 1s var(--ease-luxury);
 }
-
+ 
 .letter-seal-mini {
     font-family: var(--font-heading);
     font-weight: 700;
@@ -234,38 +255,38 @@ body::before {
     font-size: 1.4rem;
     letter-spacing: 0.05em;
 }
-
+ 
 .letter-mini-text {
     font-size: 0.85rem;
     color: var(--color-text-soft);
 }
-
+ 
 .envelope-flap-left,
 .envelope-flap-right,
 .envelope-flap-bottom {
     position: absolute;
     z-index: 2;
-    background: linear-gradient(160deg, var(--color-beige), #e2d3a8);
+    background: linear-gradient(160deg, var(--color-beige), #edd4d8);
 }
-
+ 
 .envelope-flap-left {
     left: 0; top: 0; bottom: 0; width: 50%;
     clip-path: polygon(0 0, 100% 50%, 0 100%);
-    box-shadow: inset -2px 0 4px rgba(0,0,0,0.05);
+    box-shadow: inset -2px 0 4px rgba(150, 110, 120, 0.05);
 }
-
+ 
 .envelope-flap-right {
     right: 0; top: 0; bottom: 0; width: 50%;
     clip-path: polygon(100% 0, 0 50%, 100% 100%);
-    box-shadow: inset 2px 0 4px rgba(0,0,0,0.05);
+    box-shadow: inset 2px 0 4px rgba(150, 110, 120, 0.05);
 }
-
+ 
 .envelope-flap-bottom {
     left: 0; right: 0; bottom: 0; height: 55%;
     clip-path: polygon(0 100%, 50% 30%, 100% 100%);
-    box-shadow: inset 0 -2px 4px rgba(0,0,0,0.06);
+    box-shadow: inset 0 -2px 4px rgba(150, 110, 120, 0.06);
 }
-
+ 
 .envelope-flap-top {
     position: absolute;
     left: 0; right: 0; top: 0; height: 55%;
@@ -277,9 +298,9 @@ body::before {
     display: flex;
     align-items: flex-start;
     justify-content: center;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    box-shadow: 0 2px 6px rgba(150, 110, 120, 0.08);
 }
-
+ 
 .envelope-seal {
     margin-top: 18%;
     width: 46px;
@@ -294,23 +315,23 @@ body::before {
     font-weight: 700;
     font-size: 0.85rem;
     color: var(--color-cream);
-    box-shadow: 0 3px 8px rgba(168,132,42,0.5), inset 0 0 0 2px rgba(255,255,255,0.25);
+    box-shadow: 0 3px 10px rgba(169, 130, 90, 0.35), inset 0 0 0 2px rgba(255, 255, 255, 0.3);
 }
-
+ 
 .seal-amp {
     font-size: 0.7em;
     opacity: 0.85;
 }
-
+ 
 /* Envelope opened state */
 .envelope.is-open .envelope-flap-top {
     transform: rotateX(165deg);
 }
-
+ 
 .envelope.is-open .envelope-letter {
     transform: translateY(-165%) scale(1.05);
 }
-
+ 
 .envelope-hint {
     display: flex;
     align-items: center;
@@ -319,7 +340,7 @@ body::before {
     color: var(--color-text-soft);
     letter-spacing: 0.02em;
 }
-
+ 
 .music-toggle {
     position: fixed;
     bottom: 22px;
@@ -338,14 +359,14 @@ body::before {
     justify-content: center;
     gap: 3px;
 }
-
+ 
 .music-bar {
     width: 3px;
     height: 12px;
     background: var(--color-gold);
     border-radius: 2px;
 }
-
+ 
 /* ---------------------------------------------------------------
    5. LAYOUT CONTAINERS / SECTIONS
 --------------------------------------------------------------- */
@@ -354,24 +375,24 @@ body::before {
     width: 100%;
     overflow: hidden;
 }
-
+ 
 .ornaments-layer {
     position: fixed;
     inset: 0;
     pointer-events: none;
     z-index: 1;
 }
-
+ 
 .ornament {
     position: absolute;
-    color: rgba(212, 175, 55, 0.18);
+    color: rgba(217, 169, 176, 0.35);
     font-size: 2.4rem;
 }
-
+ 
 .ornament-1 { top: 8%; left: 6%; }
-.ornament-2 { top: 40%; right: 5%; font-size: 3rem; }
+.ornament-2 { top: 40%; right: 5%; font-size: 3rem; color: rgba(201, 166, 107, 0.3); }
 .ornament-3 { bottom: 15%; left: 10%; font-size: 2rem; }
-
+ 
 .section {
     position: relative;
     z-index: 2;
@@ -380,18 +401,18 @@ body::before {
     padding: var(--section-padding) 1.5rem;
     text-align: center;
 }
-
+ 
 .section-title {
     font-size: clamp(1.6rem, 5vw, 2.4rem);
     margin-bottom: 0.5rem;
 }
-
+ 
 .section-subtitle {
     font-size: clamp(0.9rem, 3vw, 1.05rem);
     color: var(--color-text-soft);
     margin-bottom: 2.5rem;
 }
-
+ 
 .glass-card {
     background: var(--glass-bg);
     backdrop-filter: blur(var(--glass-blur));
@@ -400,7 +421,7 @@ body::before {
     box-shadow: var(--glass-shadow);
     border-radius: var(--radius-lg);
 }
-
+ 
 /* ---------------------------------------------------------------
    6. HERO SECTION
 --------------------------------------------------------------- */
@@ -415,10 +436,10 @@ body::before {
     z-index: 2;
     text-align: center;
     background:
-        radial-gradient(ellipse at top, rgba(212,175,55,0.08), transparent 60%),
-        radial-gradient(ellipse at bottom, rgba(212,175,55,0.08), transparent 60%);
+        radial-gradient(ellipse at top, rgba(217, 169, 176, 0.10), transparent 60%),
+        radial-gradient(ellipse at bottom, rgba(201, 166, 107, 0.08), transparent 60%);
 }
-
+ 
 .hero-frame {
     max-width: 640px;
     border: 1px solid var(--glass-border);
@@ -429,14 +450,14 @@ body::before {
     padding: clamp(2.2rem, 6vw, 3.5rem) clamp(1.5rem, 6vw, 3rem);
     box-shadow: var(--glass-shadow);
 }
-
+ 
 .hero-kicker {
     font-size: clamp(0.85rem, 3vw, 1rem);
     color: var(--color-text-soft);
     letter-spacing: 0.04em;
     margin-bottom: 1rem;
 }
-
+ 
 .hero-names {
     display: flex;
     align-items: center;
@@ -448,13 +469,13 @@ body::before {
     line-height: 1.15;
     flex-wrap: wrap;
 }
-
+ 
 .hero-amp {
     font-size: 0.55em;
     font-weight: 400;
     color: var(--color-gold);
 }
-
+ 
 .hero-subtitle {
     margin-top: 0.6rem;
     font-family: var(--font-heading);
@@ -462,7 +483,7 @@ body::before {
     color: var(--color-text);
     letter-spacing: 0.03em;
 }
-
+ 
 .hero-divider {
     display: flex;
     align-items: center;
@@ -470,27 +491,27 @@ body::before {
     gap: 0.6rem;
     margin: 1.6rem 0;
 }
-
+ 
 .divider-line {
     width: clamp(30px, 8vw, 60px);
     height: 1px;
-    background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+    background: linear-gradient(90deg, transparent, var(--color-rose), transparent);
 }
-
+ 
 .divider-diamond {
     width: 8px;
     height: 8px;
     background: var(--color-gold);
     transform: rotate(45deg);
 }
-
+ 
 .hero-date {
     font-size: clamp(1rem, 3.5vw, 1.2rem);
     color: var(--color-gold-dark);
     font-weight: 500;
     letter-spacing: 0.05em;
 }
-
+ 
 .scroll-indicator {
     position: absolute;
     bottom: clamp(16px, 4vh, 32px);
@@ -498,19 +519,19 @@ body::before {
     transform: translateX(-50%);
     width: 26px;
     height: 42px;
-    border: 2px solid var(--color-gold);
+    border: 2px solid var(--color-rose);
     border-radius: var(--radius-full);
 }
-
+ 
 .scroll-indicator span {
     display: block;
     width: 5px;
     height: 5px;
     margin: 6px auto 0;
     border-radius: 50%;
-    background: var(--color-gold);
+    background: var(--color-rose);
 }
-
+ 
 /* ---------------------------------------------------------------
    7. COUNTDOWN SECTION
 --------------------------------------------------------------- */
@@ -521,7 +542,7 @@ body::before {
     max-width: 620px;
     margin: 0 auto;
 }
-
+ 
 .countdown-item {
     background: var(--glass-bg);
     backdrop-filter: blur(var(--glass-blur));
@@ -531,7 +552,7 @@ body::before {
     box-shadow: var(--glass-shadow);
     padding: clamp(0.9rem, 3vw, 1.6rem) 0.4rem;
 }
-
+ 
 .countdown-number {
     display: block;
     font-family: var(--font-heading);
@@ -540,14 +561,14 @@ body::before {
     color: var(--color-gold-dark);
     font-variant-numeric: tabular-nums;
 }
-
+ 
 .countdown-label {
     display: block;
     margin-top: 0.3rem;
     font-size: clamp(0.7rem, 2.5vw, 0.85rem);
     color: var(--color-text-soft);
 }
-
+ 
 .countdown-message {
     margin-top: 2rem;
     font-family: var(--font-heading);
@@ -555,7 +576,7 @@ body::before {
     font-weight: 700;
     color: var(--color-gold-dark);
 }
-
+ 
 /* ---------------------------------------------------------------
    8. DETAILS SECTION
 --------------------------------------------------------------- */
@@ -567,42 +588,42 @@ body::before {
     flex-direction: column;
     gap: 1.4rem;
 }
-
+ 
 .detail-row {
     display: flex;
     align-items: center;
     gap: 1rem;
     text-align: right;
 }
-
+ 
 .detail-icon {
     flex-shrink: 0;
     width: 48px;
     height: 48px;
     border-radius: 50%;
-    background: rgba(212, 175, 55, 0.12);
+    background: rgba(217, 169, 176, 0.15);
     display: flex;
     align-items: center;
     justify-content: center;
 }
-
+ 
 .detail-text {
     display: flex;
     flex-direction: column;
     gap: 0.15rem;
 }
-
+ 
 .detail-title {
     font-size: 0.8rem;
     color: var(--color-text-soft);
 }
-
+ 
 .detail-value {
     font-size: clamp(1rem, 3.5vw, 1.15rem);
     font-weight: 500;
     color: var(--color-text);
 }
-
+ 
 .calendar-buttons {
     display: flex;
     flex-wrap: wrap;
@@ -610,7 +631,7 @@ body::before {
     gap: 1rem;
     margin-top: 2rem;
 }
-
+ 
 .btn-calendar {
     padding: 0.9rem 1.8rem;
     border-radius: var(--radius-full);
@@ -618,16 +639,16 @@ body::before {
     color: var(--color-cream);
     font-weight: 500;
     font-size: 0.95rem;
-    box-shadow: 0 6px 16px rgba(168, 132, 42, 0.3);
+    box-shadow: 0 6px 18px rgba(169, 130, 90, 0.22);
     transition: transform 0.3s var(--ease-luxury), box-shadow 0.3s var(--ease-luxury);
 }
-
+ 
 .btn-calendar:hover,
 .btn-calendar:active {
     transform: translateY(-2px);
-    box-shadow: 0 10px 22px rgba(168, 132, 42, 0.4);
+    box-shadow: 0 10px 24px rgba(169, 130, 90, 0.28);
 }
-
+ 
 /* ---------------------------------------------------------------
    9. MAP SECTION
 --------------------------------------------------------------- */
@@ -637,20 +658,20 @@ body::before {
     padding: 0.6rem;
     overflow: hidden;
 }
-
+ 
 #map {
     width: 100%;
     height: clamp(260px, 45vw, 420px);
     border-radius: calc(var(--radius-lg) - 6px);
-    filter: sepia(8%) saturate(85%);
+    filter: sepia(6%) saturate(80%);
 }
-
+ 
 .gold-heart-marker {
-    filter: drop-shadow(0 3px 6px rgba(168, 132, 42, 0.5));
+    filter: drop-shadow(0 3px 6px rgba(169, 130, 90, 0.4));
 }
-
+ 
 /* ---------------------------------------------------------------
-   10. RSVP FORM
+   10. RSVP FORM (legacy — kept for compatibility, unused markup)
 --------------------------------------------------------------- */
 .rsvp-form {
     max-width: 560px;
@@ -661,20 +682,20 @@ body::before {
     flex-direction: column;
     gap: 1.4rem;
 }
-
+ 
 .form-group {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
 }
-
+ 
 .form-group label,
 .rsvp-attend-group legend {
     font-size: 0.9rem;
     color: var(--color-text-soft);
     font-weight: 500;
 }
-
+ 
 .form-group input[type="text"],
 .form-group textarea {
     width: 100%;
@@ -682,49 +703,49 @@ body::before {
     font-family: var(--font-body);
     font-size: 1rem;
     color: var(--color-text);
-    background: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.65);
     border: 1px solid var(--glass-border);
     border-radius: var(--radius-md);
     resize: vertical;
     transition: border-color 0.3s var(--ease-luxury), box-shadow 0.3s var(--ease-luxury);
 }
-
+ 
 .form-group input[type="text"]:focus,
 .form-group textarea:focus {
     outline: none;
-    border-color: var(--color-gold);
-    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.18);
+    border-color: var(--color-rose);
+    box-shadow: 0 0 0 3px rgba(217, 169, 176, 0.2);
 }
-
+ 
 .rsvp-attend-group {
     border: none;
     padding: 0;
 }
-
+ 
 .rsvp-radio-row {
     display: flex;
     flex-wrap: wrap;
     gap: 0.9rem;
     margin-top: 0.3rem;
 }
-
+ 
 .rsvp-radio {
     display: flex;
     align-items: center;
     gap: 0.5rem;
     font-size: 0.9rem;
     color: var(--color-text);
-    background: rgba(255,255,255,0.5);
+    background: rgba(255, 255, 255, 0.5);
     border: 1px solid var(--glass-border);
     border-radius: var(--radius-full);
     padding: 0.5rem 1rem;
     cursor: pointer;
 }
-
+ 
 .rsvp-radio input {
-    accent-color: var(--color-gold-dark);
+    accent-color: var(--color-rose-deep);
 }
-
+ 
 .rsvp-send-group {
     display: flex;
     flex-direction: column;
@@ -733,12 +754,12 @@ body::before {
     text-align: center;
     margin-top: 0.5rem;
 }
-
+ 
 .rsvp-send-label {
     font-size: 0.85rem;
     color: var(--color-text-soft);
 }
-
+ 
 .rsvp-send-buttons {
     display: flex;
     flex-wrap: wrap;
@@ -746,7 +767,7 @@ body::before {
     gap: 0.9rem;
     width: 100%;
 }
-
+ 
 .btn-whatsapp {
     flex: 1 1 180px;
     padding: 0.9rem 1.2rem;
@@ -755,23 +776,23 @@ body::before {
     color: var(--color-white);
     font-weight: 500;
     font-size: 0.92rem;
-    box-shadow: 0 6px 16px rgba(37, 211, 102, 0.3);
+    box-shadow: 0 6px 16px rgba(37, 211, 102, 0.22);
     transition: transform 0.3s var(--ease-luxury), box-shadow 0.3s var(--ease-luxury);
 }
-
+ 
 .btn-whatsapp:hover,
 .btn-whatsapp:active {
     transform: translateY(-2px);
-    box-shadow: 0 10px 22px rgba(37, 211, 102, 0.4);
+    box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
 }
-
+ 
 .rsvp-status {
     text-align: center;
     font-size: 0.9rem;
     color: var(--color-gold-dark);
     min-height: 1.2em;
 }
-
+ 
 /* ---------------------------------------------------------------
    11. FOOTER
 --------------------------------------------------------------- */
@@ -781,7 +802,7 @@ body::before {
     padding: var(--section-padding) 1.5rem 3rem;
     text-align: center;
 }
-
+ 
 .footer-divider {
     display: flex;
     align-items: center;
@@ -789,26 +810,26 @@ body::before {
     gap: 0.6rem;
     margin-bottom: 1.8rem;
 }
-
+ 
 .footer-thanks {
     font-family: var(--font-heading);
     font-size: clamp(1.1rem, 4vw, 1.4rem);
     color: var(--color-gold-dark);
     margin-bottom: 2.2rem;
 }
-
+ 
 .footer-signature {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0.3rem;
 }
-
+ 
 .signature-line {
     font-size: 0.85rem;
     color: var(--color-text-soft);
 }
-
+ 
 .signature-name {
     font-family: var(--font-heading);
     font-size: 1.15rem;
@@ -816,19 +837,19 @@ body::before {
     color: var(--color-gold-dark);
     letter-spacing: 0.02em;
 }
-
+ 
 .signature-tagline {
     font-size: 0.78rem;
     color: var(--color-text-soft);
     margin-bottom: 1rem;
 }
-
+ 
 .social-icons {
     display: flex;
     gap: 1rem;
     margin-top: 0.4rem;
 }
-
+ 
 .social-icon {
     width: 42px;
     height: 42px;
@@ -843,7 +864,7 @@ body::before {
     color: var(--color-gold-dark);
     box-shadow: var(--glass-shadow);
 }
-
+ 
 /* ---------------------------------------------------------------
    12. RESPONSIVE ADJUSTMENTS
 --------------------------------------------------------------- */
@@ -862,13 +883,13 @@ body::before {
         flex: 1 1 100%;
     }
 }
-
+ 
 @media (min-width: 768px) {
     .section {
         padding-inline: 3rem;
     }
 }
-
+ 
 /* Landscape short-height mobile fix for envelope */
 @media (max-height: 480px) and (orientation: landscape) {
     .envelope {
@@ -877,5 +898,167 @@ body::before {
     }
     .envelope-wrap {
         gap: 0.8rem;
+    }
+}
+ 
+/* ==================================================================
+   GUESTBOOK / WISHES WALL — soft glassmorphism guestbook
+   ================================================================== */
+ 
+.guestbook-form {
+    max-width: 560px;
+    margin: 0 auto;
+    padding: clamp(1.6rem, 5vw, 2.6rem);
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+ 
+.btn-guestbook {
+    width: 100%;
+    padding: 0.95rem 1.4rem;
+    border-radius: var(--radius-full);
+    background: linear-gradient(135deg, var(--color-rose), var(--color-gold-dark));
+    color: var(--color-cream);
+    font-weight: 600;
+    font-size: 1rem;
+    box-shadow: 0 6px 18px rgba(180, 140, 150, 0.22);
+    transition: transform 0.3s var(--ease-luxury), box-shadow 0.3s var(--ease-luxury), opacity 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+ 
+.btn-guestbook:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(180, 140, 150, 0.28);
+}
+ 
+.btn-guestbook:active {
+    transform: scale(0.97);
+}
+ 
+.btn-guestbook.is-loading {
+    opacity: 0.65;
+    pointer-events: none;
+}
+ 
+.btn-guestbook.is-loading .btn-guestbook-label::after {
+    content: "...";
+}
+ 
+.guestbook-status {
+    text-align: center;
+    font-size: 0.9rem;
+    min-height: 1.2em;
+    color: var(--color-gold-dark);
+}
+ 
+.guestbook-status.success {
+    color: #2e7d32;
+}
+ 
+.guestbook-status.error {
+    color: #b3261e;
+}
+ 
+/* ---------------------------------------------------------------
+   WISHES WALL — auto-scrolling feed frame
+--------------------------------------------------------------- */
+.wishes-wall-frame {
+    position: relative;
+    max-width: 640px;
+    margin: 2.4rem auto 0;
+    padding: 0.5rem;
+    overflow: hidden;
+}
+ 
+/* Soft fade masks at top & bottom for a gentle "floating" feel */
+.wishes-wall-frame::before,
+.wishes-wall-frame::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 46px;
+    pointer-events: none;
+    z-index: 2;
+}
+ 
+.wishes-wall-frame::before {
+    top: 0;
+    background: linear-gradient(180deg, rgba(253, 248, 245, 0.92), transparent);
+}
+ 
+.wishes-wall-frame::after {
+    bottom: 0;
+    background: linear-gradient(0deg, rgba(253, 248, 245, 0.92), transparent);
+}
+ 
+.wishes-wall {
+    height: clamp(320px, 55vh, 460px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 1.1rem 0.6rem;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    scroll-behavior: smooth;
+}
+ 
+.wishes-wall::-webkit-scrollbar {
+    display: none;
+}
+ 
+.wishes-wall-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+ 
+.wishes-empty {
+    text-align: center;
+    color: var(--color-text-soft);
+    padding: 3rem 1rem;
+    font-family: var(--font-heading);
+    font-size: 1.05rem;
+}
+ 
+/* ---------------------------------------------------------------
+   INDIVIDUAL WISH CARD — soft glass + gentle rose-gold border
+--------------------------------------------------------------- */
+.wish-card {
+    position: relative;
+    background: rgba(255, 255, 255, 0.58);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(217, 169, 176, 0.4);
+    border-radius: 16px;
+    padding: 1.1rem 1.3rem;
+    text-align: right;
+    box-shadow: 0 4px 20px rgba(180, 140, 150, 0.10);
+    flex-shrink: 0;
+}
+ 
+.wish-card-name {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--color-gold-dark);
+    margin-bottom: 0.35rem;
+}
+ 
+.wish-card-message {
+    font-size: 0.9rem;
+    line-height: 1.65;
+    color: var(--color-text);
+    word-break: break-word;
+}
+ 
+@media (max-width: 480px) {
+    .wishes-wall {
+        padding: 0.9rem 0.4rem;
+    }
+    .wish-card {
+        padding: 0.9rem 1.05rem;
     }
 }
