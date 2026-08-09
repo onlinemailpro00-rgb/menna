@@ -373,3 +373,346 @@
         scroll-behavior: auto !important;
     }
 }
+
+/* ---------------------------------------------------------------
+   11. GUESTBOOK / WISHES WALL ANIMATIONS
+--------------------------------------------------------------- */
+
+/* Subtle continuous glow pulse on each wish card's gold border */
+.wish-card {
+    animation: wish-card-glow 4s ease-in-out infinite;
+}
+
+@keyframes wish-card-glow {
+    0%, 100% {
+        box-shadow: 0 4px 18px rgba(168, 132, 42, 0.12);
+        border-color: rgba(212, 175, 55, 0.4);
+    }
+    50% {
+        box-shadow: 0 4px 24px rgba(168, 132, 42, 0.2), 0 0 16px rgba(212, 175, 55, 0.22);
+        border-color: rgba(212, 175, 55, 0.65);
+    }
+}
+
+/* Stagger the glow slightly per-card so the wall doesn't pulse in unison */
+.wish-card:nth-child(2n) { animation-delay: 0.6s; }
+.wish-card:nth-child(3n) { animation-delay: 1.2s; }
+.wish-card:nth-child(4n) { animation-delay: 1.8s; }
+
+/* New wish entrance — slides + fades in from the top of the wall */
+.wish-card-enter {
+    opacity: 0;
+    transform: translateY(-16px) scale(0.97);
+    transition: opacity 0.55s var(--ease-luxury), transform 0.55s var(--ease-luxury);
+}
+
+.wish-card-enter-active {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.wishes-empty {
+    animation: fade-in-up 0.8s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .wish-card {
+        animation: none;
+    }
+}
+
+/* ---------------------------------------------------------------
+   12. GUESTBOOK — MAGICAL MESSAGES BOX (Hearts, Petals & Dust)
+   Feminine luxury particle system for .messages-box only.
+   Mobile-first · GPU-only (transform + opacity) · 60fps target
+   Covered by the global prefers-reduced-motion rule in section 10.
+--------------------------------------------------------------- */
+
+:root {
+    --mb-pearl:           #FFF6F3;
+    --mb-blush:           #DDA7A5;
+    --mb-rose-gold:       #C98F8A;
+    --mb-rose-gold-light: #E8C4C0;
+    --mb-burgundy:        #B56576;
+}
+
+.messages-box {
+    position: relative;
+    isolation: isolate;
+    overflow: visible;              /* lets hearts drift outside the card */
+    border-radius: 28px;
+    transform: translateZ(0);
+    will-change: transform;
+    animation: mb-levitate 6s ease-in-out infinite;
+    box-shadow: 0 0 0 1px rgba(201, 143, 138, 0.25);
+}
+
+/* Organic, non-linear levitation */
+@keyframes mb-levitate {
+    0%   { transform: translate3d(0, 0px, 0)     rotate(0deg); }
+    25%  { transform: translate3d(1px, -6px, 0)  rotate(0.15deg); }
+    50%  { transform: translate3d(0, -10px, 0)   rotate(0deg); }
+    75%  { transform: translate3d(-1px, -5px, 0) rotate(-0.15deg); }
+    100% { transform: translate3d(0, 0px, 0)     rotate(0deg); }
+}
+
+/* ---- ::before — breathing magical aura + one-shot shimmer sweep ----
+   Color is baked into a static gradient; only opacity + transform
+   animate, so box-shadow itself never repaints. */
+.messages-box::before {
+    content: "";
+    position: absolute;
+    inset: -18%;
+    z-index: -1;
+    border-radius: 40%;
+    pointer-events: none;
+    background:
+        radial-gradient(closest-side,
+            rgba(201, 143, 138, 0.55) 0%,
+            rgba(221, 167, 165, 0.35) 45%,
+            rgba(181, 101, 118, 0.18) 70%,
+            transparent 100%);
+    filter: blur(18px);
+    opacity: 0.55;
+    transform: scale(0.92);
+    will-change: transform, opacity;
+    animation: mb-aura-breathe 4.5s ease-in-out infinite;
+}
+
+@keyframes mb-aura-breathe {
+    0%, 100% { opacity: 0.4; transform: scale(0.9); }
+    50%      { opacity: 0.8; transform: scale(1.08); }
+}
+
+.in-view .messages-box::before {
+    animation:
+        mb-aura-breathe 4.5s ease-in-out infinite,
+        mb-shimmer-sweep 1.4s cubic-bezier(0.22, 1, 0.36, 1) 1;
+}
+
+@keyframes mb-shimmer-sweep {
+    0%   { opacity: 0;    transform: scale(0.6) rotate(0deg) translate3d(-40%, 0, 0); }
+    35%  { opacity: 1; }
+    100% { opacity: 0.55; transform: scale(1.35) rotate(8deg) translate3d(20%, -10%, 0); }
+}
+
+/* ---- ::after — dozens of drifting hearts, petals & sparkle dust ----
+   Real "♥" glyphs are stamped dozens of times via text-shadow offsets
+   (each entry renders its own heart shape at zero extra DOM cost);
+   soft radial-gradient blobs underneath read as blurred petals/dust.
+   The whole field is ONE element moved only with transform/opacity. */
+.messages-box::after {
+    content: "♥";
+    display: block;
+    color: transparent;             /* hide the source glyph, only shadows show */
+    font-size: 13px;
+    line-height: 1;
+    position: absolute;
+    left: -25%;
+    top: -35%;
+    width: 150%;
+    height: 170%;
+    z-index: 3;
+    pointer-events: none;
+    background-image:
+        radial-gradient(ellipse 46px 30px at 12% 20%, rgba(221,167,165,0.35), transparent 70%),
+        radial-gradient(ellipse 60px 36px at 78% 55%, rgba(201,143,138,0.28), transparent 70%),
+        radial-gradient(ellipse 38px 26px at 45% 82%, rgba(181,101,118,0.22), transparent 70%),
+        radial-gradient(circle 2px, rgba(255,246,243,0.9), transparent 75%);
+    background-size: 100% 100%, 100% 100%, 100% 100%, 46px 46px;
+    background-repeat: no-repeat, no-repeat, no-repeat, repeat;
+    mask-image: linear-gradient(to bottom,
+        transparent 0%, black 18%, black 82%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom,
+        transparent 0%, black 18%, black 82%, transparent 100%);
+    text-shadow:
+        18px  40px  0   rgba(255,246,243,0.92),
+        64px  110px 1px rgba(221,167,165,0.85),
+        112px 60px  0   rgba(201,143,138,0.8),
+        150px 160px 2px rgba(232,196,192,0.75),
+        30px  190px 0   rgba(181,101,118,0.6),
+        200px 30px  1px rgba(255,246,243,0.85),
+        240px 130px 0   rgba(221,167,165,0.78),
+        270px 200px 2px rgba(201,143,138,0.65),
+        10px  260px 0   rgba(232,196,192,0.8),
+        90px  270px 1px rgba(255,246,243,0.75),
+        180px 250px 0   rgba(181,101,118,0.55),
+        310px 90px  0   rgba(221,167,165,0.7),
+        330px 220px 1px rgba(201,143,138,0.6),
+        55px  320px 0   rgba(255,246,243,0.7),
+        140px 340px 2px rgba(232,196,192,0.6),
+        250px 320px 0   rgba(181,101,118,0.5),
+        5px   130px 1px rgba(201,143,138,0.7),
+        195px 350px 0   rgba(255,246,243,0.65),
+        320px 350px 1px rgba(221,167,165,0.6),
+        75px  15px  0   rgba(181,101,118,0.5),
+        290px 10px  1px rgba(232,196,192,0.7),
+        170px 5px   0   rgba(255,246,243,0.6);
+    opacity: 0.95;
+    transform: translate3d(0, 0, 0);
+    will-change: transform;
+    animation: mb-particles-drift 11s linear infinite;
+}
+
+/* Field glides gently upward; the mask fade at the top/bottom of the
+   layer swallows the loop reset, so the drift reads as endless */
+@keyframes mb-particles-drift {
+    0%   { transform: translate3d(0, 0%, 0); }
+    100% { transform: translate3d(0, -22%, 0); }
+}
+
+/* Burst — a second animation layered onto the SAME field the instant
+   .in-view lands: hearts and dust flare outward and spin, then settle
+   back into the ambient drift. Fires once (no infinite keyword). */
+.in-view .messages-box::after {
+    animation:
+        mb-particles-drift 11s linear infinite,
+        mb-burst 1.3s cubic-bezier(0.16, 1, 0.3, 1) 1;
+}
+
+@keyframes mb-burst {
+    0%   { opacity: 0;    transform: translate3d(0, 0%, 0)   scale(0.4) rotate(0deg); }
+    30%  { opacity: 1; }
+    65%  { opacity: 1;    transform: translate3d(0, -8%, 0)  scale(1.7) rotate(10deg); }
+    100% { opacity: 0.95; transform: translate3d(0, -22%, 0) scale(1)   rotate(0deg); }
+}
+/* ================================================================
+   MESSAGES BOX — MOBILE SCROLL UX + GLASSMORPHIC WISH CARDS
+   Additions/overrides for .messages-box and .wish-card
+   Append AFTER the existing .messages-box / .wish-card rules so
+   these declarations win the cascade.
+   ================================================================ */
+ 
+/* ---------------------------------------------------------------
+   .messages-box — independent, momentum-scrolling container
+--------------------------------------------------------------- */
+.messages-box {
+    /* NOTE: this overrides overflow:visible from the particle-effects
+       pass. A box that scrolls internally can't also let content
+       bleed past its own edge, so the drifting hearts/dust now stay
+       contained within the card — still fully visible, just no
+       longer escaping past the border. The breathing aura is
+       unaffected: it's driven by box-shadow below, and an element's
+       own box-shadow is never clipped by its own overflow property. */
+    max-height: 45vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;   /* iOS momentum scroll */
+    overscroll-behavior: contain;         /* stop scroll chaining to page */
+    scroll-behavior: smooth;
+ 
+    /* Fixed top/bottom fade — hints there's more to scroll without
+       needing extra markup. Lives on the box itself, so it does NOT
+       move with scroll position. */
+    mask-image: linear-gradient(
+        to bottom,
+        transparent 0,
+        black 28px,
+        black calc(100% - 28px),
+        transparent 100%
+    );
+    -webkit-mask-image: linear-gradient(
+        to bottom,
+        transparent 0,
+        black 28px,
+        black calc(100% - 28px),
+        transparent 100%
+    );
+ 
+    animation:
+        mb-levitate 6s ease-in-out infinite,
+        mb-box-glow 4.5s ease-in-out infinite;
+}
+ 
+/* Breathing box-level glow — box-shadow only, so it renders past the
+   card edge untouched by overflow-y: auto above */
+@keyframes mb-box-glow {
+    0%, 100% {
+        box-shadow:
+            0 0 0 1px rgba(201, 143, 138, 0.25),
+            0 8px 28px rgba(181, 101, 118, 0.15);
+    }
+    50% {
+        box-shadow:
+            0 0 0 1px rgba(232, 196, 192, 0.45),
+            0 10px 36px rgba(201, 143, 138, 0.32),
+            0 0 24px rgba(221, 167, 165, 0.28);
+    }
+}
+ 
+/* Firefox thin scrollbar */
+.messages-box {
+    scrollbar-width: thin;
+    scrollbar-color: var(--mb-rose-gold, #C98F8A) transparent;
+}
+ 
+/* WebKit custom scrollbar — ultra-thin, rose gold → burgundy thumb */
+.messages-box::-webkit-scrollbar {
+    width: 5px;
+}
+ 
+.messages-box::-webkit-scrollbar-track {
+    background: transparent;
+}
+ 
+.messages-box::-webkit-scrollbar-thumb {
+    background: linear-gradient(
+        to bottom,
+        var(--mb-rose-gold-light, #E8C4C0),
+        var(--mb-burgundy, #B56576)
+    );
+    border-radius: 10px;
+}
+ 
+.messages-box::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(
+        to bottom,
+        var(--mb-rose-gold, #C98F8A),
+        var(--mb-burgundy, #B56576)
+    );
+}
+ 
+/* ---------------------------------------------------------------
+   .wish-card — glassmorphic, glowing message cards
+--------------------------------------------------------------- */
+.wish-card {
+    position: relative;
+    z-index: 4;   /* stays crisp above the aura (-1) and hearts (3) layers */
+ 
+    background: linear-gradient(
+        160deg,
+        rgba(255, 246, 243, 0.55),
+        rgba(221, 167, 165, 0.28)
+    );
+    backdrop-filter: blur(14px) saturate(160%);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+ 
+    border: 1px solid rgba(232, 196, 192, 0.45);
+    border-radius: 18px;
+ 
+    animation: wish-card-breathe 4s ease-in-out infinite;
+}
+ 
+@keyframes wish-card-breathe {
+    0%, 100% {
+        box-shadow:
+            0 4px 16px rgba(181, 101, 118, 0.10),
+            inset 0 0 0 1px rgba(201, 143, 138, 0.18);
+    }
+    50% {
+        box-shadow:
+            0 6px 22px rgba(181, 101, 118, 0.22),
+            0 0 14px rgba(232, 196, 192, 0.35),
+            inset 0 0 0 1px rgba(232, 196, 192, 0.35);
+    }
+}
+ 
+.wish-card:nth-child(2n) { animation-delay: 0.6s; }
+.wish-card:nth-child(3n) { animation-delay: 1.2s; }
+ 
+@media (prefers-reduced-motion: reduce) {
+    .messages-box {
+        scroll-behavior: auto;
+    }
+}
+ 
